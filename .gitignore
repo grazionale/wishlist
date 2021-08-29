@@ -5,3 +5,7 @@ yarn-error.log
 .env.production
 .env.staging
 .env.test
+.idea/
+.vscode/
+tmp/
+temp/

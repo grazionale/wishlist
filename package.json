@@ -8,7 +8,8 @@
     "test": "jest --passWithNoTests --runInBand --no-cache",
     "test:staged": "npm test",
     "prepare": "husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "keywords": [],
   "author": "",
