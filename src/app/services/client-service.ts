@@ -1,12 +1,11 @@
-import ClientRepository from '../repositories/client-repository'
-import FakeClientRepository from '../repositories/fakes/fake-client-repository'
+import { IClientRepository } from '../repositories/interfaces/client-repository'
 import IClientIndexDTO from './dtos/client-service-index-dto'
 
 class ClientService {
-  private readonly clientRepository: ClientRepository | FakeClientRepository
+  private readonly clientRepository: IClientRepository
 
-  constructor (clientRepository?: ClientRepository | FakeClientRepository) { // TODO - Trocar por uma interface
-    this.clientRepository = clientRepository || new ClientRepository()
+  constructor (clientRepository: IClientRepository) {
+    this.clientRepository = clientRepository
   }
 
   public async index (): Promise<IClientIndexDTO[]> {

@@ -1,4 +1,4 @@
-import FakeClientRepository from '../../src/app/repositories/fakes/fake-client-repository'
+import FakeClientRepository from '../mocks/repositories/fakes/fake-client-repository'
 import ClientService from '../../src/app/services/client-service'
 
 describe('ClientService', () => {

@@ -1,8 +1,9 @@
 import { getRepository, Repository } from 'typeorm'
 import { Client } from '../entities/Client'
 import IClientIndexDTO from './dtos/client-repository-index-dto'
+import { IClientRepository } from './interfaces/client-repository'
 
-class ClientRepository {
+class ClientRepository implements IClientRepository {
   private readonly ormRepository: Repository<Client>
 
   constructor () {
