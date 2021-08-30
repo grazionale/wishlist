@@ -3,7 +3,7 @@ import app from '../../src/config/app'
 
 describe('Root Routes', () => {
   describe('GET /api', () => {
-    test('Should return 200 on /', async () => {
+    test('Should return 200 on /api', async () => {
       await request(app)
         .get('/api')
         .expect(200)
