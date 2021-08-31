@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-import 'express-async-errors'
 import env from './config/env'
 import SetupDatabase from './config/setup-database'
 
