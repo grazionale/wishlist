@@ -1,5 +1,6 @@
 import FakeClientRepository from '../mocks/repositories/fakes/fake-client-repository'
 import ClientService from '../../src/app/services/client-service'
+import AppError from '../../src/app/errors/app-error'
 import { Client } from '../../src/app/entities/Client'
 
 const makeClient = (email?: string): Client => {
@@ -43,5 +44,12 @@ describe('ClientService', () => {
     expect(client).toHaveProperty('id')
     expect(client.name).toBe(mockClient.name)
     expect(client.email).toBe(mockClient.email)
+  })
+
+  it('should be return 400 when try insert already exist client', async () => {
+    await clientService.create(makeClient())
+
+    await expect(clientService.create(makeClient()))
+      .rejects.toEqual(new AppError('Client already exists'))
   })
 })
