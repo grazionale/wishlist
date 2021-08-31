@@ -22,4 +22,13 @@ export default class ClientsController {
     const client = await clientService.show(client_id)
     return response.json(client)
   }
+
+  public async post (request: Request, response: Response): Promise<Response> {
+    const { name, email } = request.body
+    const clientService = new ClientService(new ClientRepository())
+
+    const client = await clientService.create({ name, email })
+
+    return response.json(client)
+  }
 }
