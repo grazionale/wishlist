@@ -1,9 +1,9 @@
 import AppError from '../errors/app-error'
-import IClientPostResponseDTO from '../repositories/dtos/client-repository-post-response-dto'
-import { IClientRepository } from '../repositories/interfaces/client-repository'
-import IClientIndexDTO from './dtos/client-service-index-dto'
-import IClientPostRequestDTO from './dtos/client-service-post-request-dto'
-import IClientShowDTO from './dtos/client-service-show-dto'
+import IClientPostResponseDTO from '../dtos/repositories/client-repository-post-response-dto'
+import { IClientRepository } from '../interfaces/repositories/client-repository'
+import IClientIndexResponseDTO from '../dtos/services/client-service-index-response-dto'
+import IClientPostRequestDTO from '../dtos/services/client-service-post-request-dto'
+import IClientShowResponseDTO from '../dtos/services/client-service-show-response-dto'
 
 class ClientService {
   private readonly clientRepository: IClientRepository
@@ -12,13 +12,13 @@ class ClientService {
     this.clientRepository = clientRepository
   }
 
-  public async index (): Promise<IClientIndexDTO[]> {
+  public async index (): Promise<IClientIndexResponseDTO[]> {
     const listOfClients = this.clientRepository.index()
 
     return await listOfClients
   }
 
-  public async show (clientId: string): Promise<IClientShowDTO> {
+  public async show (clientId: string): Promise<IClientShowResponseDTO> {
     const client = await this.clientRepository.show(clientId)
 
     if (!client) {

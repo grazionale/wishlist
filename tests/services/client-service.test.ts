@@ -1,7 +1,7 @@
-import FakeClientRepository from '../mocks/repositories/fakes/fake-client-repository'
+import FakeClientRepository from '../mocks/repositories/fake-client-repository'
 import ClientService from '../../src/app/services/client-service'
 import AppError from '../../src/app/errors/app-error'
-import { Client } from '../../src/app/entities/Client'
+import { Client } from '../../src/app/entities/client'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()

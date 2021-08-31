@@ -1,10 +1,10 @@
 import { getRepository, Repository } from 'typeorm'
-import { Client } from '../entities/Client'
-import IClientIndexDTO from './dtos/client-repository-index-dto'
-import IClientPostRequestDTO from './dtos/client-repository-post-request-dto'
-import IClientPostResponseDTO from './dtos/client-repository-post-response-dto'
-import IClientShowDTO from './dtos/client-repository-show-dto'
-import { IClientRepository } from './interfaces/client-repository'
+import { Client } from '../entities/client'
+import IClientIndexResponseDTO from '../dtos/repositories/client-repository-index-response-dto'
+import IClientPostRequestDTO from '../dtos/repositories/client-repository-post-request-dto'
+import IClientPostResponseDTO from '../dtos/repositories/client-repository-post-response-dto'
+import IClientShowResponseDTO from '../dtos/repositories/client-repository-show-response-dto'
+import { IClientRepository } from '../interfaces/repositories/client-repository'
 
 class ClientRepository implements IClientRepository {
   private readonly ormRepository: Repository<Client>
@@ -13,13 +13,13 @@ class ClientRepository implements IClientRepository {
     this.ormRepository = getRepository(Client)
   }
 
-  public async index (): Promise<IClientIndexDTO[]> {
+  public async index (): Promise<IClientIndexResponseDTO[]> {
     const listOfClients = await this.ormRepository.find()
 
     return listOfClients
   }
 
-  public async show (clientId: string): Promise<IClientShowDTO | undefined> {
+  public async show (clientId: string): Promise<IClientShowResponseDTO | undefined> {
     const client = await this.ormRepository.findOne(clientId)
 
     return client
@@ -31,7 +31,7 @@ class ClientRepository implements IClientRepository {
     return clientSaved
   }
 
-  public async findByEmail (clientEmail: string): Promise<IClientShowDTO | undefined> {
+  public async findByEmail (clientEmail: string): Promise<IClientShowResponseDTO | undefined> {
     const client = await this.ormRepository.findOne({ email: clientEmail })
 
     return client

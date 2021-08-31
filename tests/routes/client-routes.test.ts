@@ -1,6 +1,6 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
-import { Client } from '../../src/app/entities/Client'
+import { Client } from '../../src/app/entities/client'
 import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'

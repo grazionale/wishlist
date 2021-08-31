@@ -1,10 +1,10 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
-import { Client } from '../../src/app/entities/Client'
+import { Client } from '../../src/app/entities/client'
 import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
-import IClientPostRequestDTO from '../../src/app/services/dtos/client-service-post-request-dto'
+import IClientPostRequestDTO from '../../src/app/dtos/services/client-service-post-request-dto'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()
@@ -75,8 +75,6 @@ describe('Client Controller', () => {
         .then(response => {
           expect(response.body.name).toBe('Cliente POST')
           expect(response.body.email).toBe('client_post@hotmail.com')
-        }).catch(err => {
-          console.log(err)
         })
     })
   })
