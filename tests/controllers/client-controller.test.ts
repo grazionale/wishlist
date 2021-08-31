@@ -4,6 +4,7 @@ import { Client } from '../../src/app/entities/Client'
 import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
+import IClientPostRequestDTO from '../../src/app/services/dtos/client-service-post-request-dto'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()
@@ -11,6 +12,13 @@ const makeClient = (email?: string): Client => {
   client.name = 'client'
 
   return client
+}
+
+const makePostRequest = (name?: string, email?: string): IClientPostRequestDTO => {
+  return {
+    name: name || 'um nome qualquer',
+    email: email || 'umemailqualquer@email.com'
+  }
 }
 
 describe('Client Controller', () => {
@@ -55,6 +63,21 @@ describe('Client Controller', () => {
       await request(app)
         .get('/api/clients/3')
         .expect(404)
+    })
+  })
+
+  describe('POST /api/clients', () => {
+    test('Should return 200 on /api/clients with correct payload', async () => {
+      await request(app)
+        .post('/api/clients')
+        .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
+        .expect(200)
+        .then(response => {
+          expect(response.body.name).toBe('Cliente POST')
+          expect(response.body.email).toBe('client_post@hotmail.com')
+        }).catch(err => {
+          console.log(err)
+        })
     })
   })
 })
