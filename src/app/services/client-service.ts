@@ -1,6 +1,8 @@
 import AppError from '../errors/app-error'
+import IClientPostResponseDTO from '../repositories/dtos/client-repository-post-response-dto'
 import { IClientRepository } from '../repositories/interfaces/client-repository'
 import IClientIndexDTO from './dtos/client-service-index-dto'
+import IClientPostRequestDTO from './dtos/client-service-post-request-dto'
 import IClientShowDTO from './dtos/client-service-show-dto'
 
 class ClientService {
@@ -24,6 +26,12 @@ class ClientService {
     }
 
     return client
+  }
+
+  public async create (client: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
+    const clientSaved = await this.clientRepository.create(client)
+
+    return clientSaved
   }
 }
 
