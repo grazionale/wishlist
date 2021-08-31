@@ -78,4 +78,18 @@ describe('Client Controller', () => {
         })
     })
   })
+
+  describe('POST /api/clients', () => {
+    test('Should return 400 on /api/clients with correct payload but already existing client', async () => {
+      await request(app)
+        .post('/api/clients')
+        .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
+        .expect(200)
+
+      await request(app)
+        .post('/api/clients')
+        .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
+        .expect(400)
+    })
+  })
 })
