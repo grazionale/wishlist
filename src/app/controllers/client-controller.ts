@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
-import ClientRepository from '../repositories/client-repository'
-import ClientService from '../services/client-service'
+import { makeClientService } from '../factories/services/client-service-factory'
 
 export default class ClientsController {
   public async index (request: Request, response: Response): Promise<Response> {
-    const clientService = new ClientService(new ClientRepository())
+    const clientService = makeClientService()
 
     try {
       const listOfClients = await clientService.index()
@@ -17,7 +16,7 @@ export default class ClientsController {
 
   public async show (request: Request, response: Response): Promise<Response> {
     const { client_id } = request.params
-    const clientService = new ClientService(new ClientRepository())
+    const clientService = makeClientService()
 
     const client = await clientService.show(client_id)
     return response.json(client)
@@ -25,7 +24,7 @@ export default class ClientsController {
 
   public async post (request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body
-    const clientService = new ClientService(new ClientRepository())
+    const clientService = makeClientService()
 
     const client = await clientService.create({ name, email })
 
