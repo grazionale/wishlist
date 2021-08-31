@@ -1,3 +1,4 @@
+import { Client } from '../../../../src/app/entities/Client'
 import IClientIndexDTO from '../../../../src/app/repositories/dtos/client-repository-index-dto'
 import IClientPostRequestDTO from '../../../../src/app/repositories/dtos/client-repository-post-request-dto'
 import IClientPostResponseDTO from '../../../../src/app/repositories/dtos/client-repository-post-response-dto'
@@ -5,38 +6,26 @@ import IClientShowDTO from '../../../../src/app/repositories/dtos/client-reposit
 import { IClientRepository } from '../../../../src/app/repositories/interfaces/client-repository'
 
 class FakeClientRepository implements IClientRepository {
-  public async index (): Promise<IClientIndexDTO[]> {
-    const listOfClients = [
-      {
-        id: 1,
-        name: 'Gabriel',
-        email: 'gabriel@hotmail.com'
-      }
-    ]
+  private readonly clients: Client[] = []
 
-    return listOfClients
+  public async index (): Promise<IClientIndexDTO[]> {
+    return this.clients
   }
 
-  public async show (): Promise<IClientShowDTO> {
-    const client =
-    {
-      id: 1,
-      name: 'Gabriel',
-      email: 'gabriel@hotmail.com'
-    }
+  public async show (clientId: string): Promise<IClientShowDTO | undefined> {
+    return this.clients.find(client => client.id.toString() === clientId)
+  }
 
+  public async create (clientData: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
+    const client = new Client()
+    Object.assign(client, { id: 1, ...clientData })
+    this.clients.push(client)
     return client
   }
 
-  public async create (client: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
-    const clientSaved =
-    {
-      id: 1,
-      name: client.name,
-      email: client.email
-    }
-
-    return clientSaved
+  public async findByEmail (clientEmail: string): Promise<IClientShowDTO | undefined> {
+    const findClient = this.clients.find(client => client.email === clientEmail)
+    return findClient
   }
 }
 
