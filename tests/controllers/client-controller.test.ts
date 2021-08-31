@@ -41,4 +41,20 @@ describe('Client Controller', () => {
         .expect(200)
     })
   })
+
+  describe('GET /api/clients/:client_id', () => {
+    test('Should return 200 on /api/clients/:client_id', async () => {
+      await request(app)
+        .get('/api/clients/2')
+        .expect(200)
+    })
+  })
+
+  describe('GET /api/clients/:client_id', () => {
+    test('Should return 404 on /api/clients/:client_id with inexistent id', async () => {
+      await request(app)
+        .get('/api/clients/3')
+        .expect(404)
+    })
+  })
 })
