@@ -30,6 +30,12 @@ class ClientRepository implements IClientRepository {
 
     return clientSaved
   }
+
+  public async findByEmail (clientEmail: string): Promise<IClientShowDTO | undefined> {
+    const client = await this.ormRepository.findOne({ email: clientEmail })
+
+    return client
+  }
 }
 
 export default ClientRepository

@@ -29,6 +29,11 @@ class ClientService {
   }
 
   public async create (client: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
+    const alreadyExists = await this.clientRepository.findByEmail(client.email)
+
+    if (alreadyExists) {
+      throw new AppError('Client already exists', 400)
+    }
     const clientSaved = await this.clientRepository.create(client)
 
     return clientSaved

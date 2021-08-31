@@ -6,5 +6,6 @@ import IClientPostResponseDTO from '../dtos/client-repository-post-response-dto'
 export interface IClientRepository {
   index: () => Promise<IClientIndexDTO[]>
   show: (clientId: string) => Promise<IClientShowDTO | undefined>
+  findByEmail: (clientEmail: string) => Promise<IClientShowDTO | undefined>
   create: (client: IClientPostRequestDTO) => Promise<IClientPostResponseDTO>
 }
