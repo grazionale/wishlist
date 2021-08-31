@@ -13,6 +13,17 @@ class FakeClientRepository implements IClientRepository {
 
     return listOfClients
   }
+
+  public async show (): Promise<IClientIndexDTO> {
+    const client =
+    {
+      id: 1,
+      name: 'Gabriel',
+      email: 'gabriel@hotmail.com'
+    }
+
+    return client
+  }
 }
 
 export default FakeClientRepository

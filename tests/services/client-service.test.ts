@@ -15,4 +15,11 @@ describe('ClientService', () => {
 
     expect(listOfClients).toHaveLength(1)
   })
+
+  it('should be return one client', async () => {
+    const client = await clientService.show('1')
+
+    expect(client).toHaveProperty('id')
+    expect(client.id).toBe(1)
+  })
 })
