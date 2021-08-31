@@ -24,4 +24,14 @@ yarn typeorm migration:run
 ```
 yarn start
 ```
+## Como rodar os testes
+Este projete contém testes unitários e de integração. Os testes unitários foram feitos principalmente nas services, onde encontra-se toda regra de negócio. Nos testes unitários foi utilizado mock dos repositórios, enquanto nos testes de integração, nos controllers, foi utilizado o banco de dados SQLite em memória.
 
+1. Instale as depêndecias
+```
+yarn install
+```
+2. Execute os testes
+```
+yarn test
+```
