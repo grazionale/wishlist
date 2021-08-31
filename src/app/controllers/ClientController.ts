@@ -14,4 +14,12 @@ export default class ClientsController {
       return response.json({ error: err })
     }
   }
+
+  public async show (request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params
+    const clientService = new ClientService(new ClientRepository())
+
+    const client = await clientService.show(client_id)
+    return response.json(client)
+  }
 }
