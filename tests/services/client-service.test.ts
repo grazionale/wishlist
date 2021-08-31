@@ -22,4 +22,14 @@ describe('ClientService', () => {
     expect(client).toHaveProperty('id')
     expect(client.id).toBe(1)
   })
+
+  it('should be insert one client', async () => {
+    const client = await clientService.create({
+      name: 'Cliente POST',
+      email: 'client_post@hotmail.com'
+    })
+
+    expect(client).toHaveProperty('id')
+    expect(client.name).toBe('Cliente POST')
+  })
 })
