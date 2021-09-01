@@ -4,7 +4,8 @@ import { IClientRepository } from '../interfaces/repositories/client-repository'
 import IClientIndexResponseDTO from '../dtos/services/client-service-index-response-dto'
 import IClientPostRequestDTO from '../dtos/services/client-service-post-request-dto'
 import IClientShowResponseDTO from '../dtos/services/client-service-show-response-dto'
-
+import IClientPutRequestDTO from '../dtos/services/client-service-put-request-dto'
+import IClientPutResponseDTO from '../dtos/services/client-service-put-response-dto'
 class ClientService {
   private readonly clientRepository: IClientRepository
 
@@ -35,6 +36,18 @@ class ClientService {
       throw new AppError('Client already exists', 400)
     }
     const clientSaved = await this.clientRepository.create(client)
+
+    return clientSaved
+  }
+
+  public async update (client: IClientPutRequestDTO): Promise<IClientPutResponseDTO> {
+    const findClient = await this.clientRepository.show(client.id.toString())
+
+    if (!findClient) {
+      throw new AppError('Client not exists', 404)
+    }
+
+    const clientSaved = await this.clientRepository.update(client)
 
     return clientSaved
   }
