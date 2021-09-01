@@ -37,7 +37,7 @@ class FakeClientRepository implements IClientRepository {
       this.clients.push(findClient)
       return findClient
     }
-    this.clients.push(clientData)
+    this.clients.push({ favorites: [], ...clientData })
     return clientData
   }
 
