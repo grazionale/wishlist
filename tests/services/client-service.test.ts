@@ -68,4 +68,15 @@ describe('ClientService', () => {
     await expect(clientService.update({ ...mockClient, id: 100 }))
       .rejects.toEqual(new AppError('Client not exists', 404))
   })
+
+  it('should be delete one client', async () => {
+    const clientCreated = await clientService.create(makeClient())
+    const result = await clientService.delete(clientCreated.id)
+    expect(result).toEqual('Client successfully deleted')
+  })
+
+  it('should be return 400 when try delete a client inexistent', async () => {
+    await expect(clientService.delete(100))
+      .rejects.toEqual(new AppError('Client not exists', 404))
+  })
 })

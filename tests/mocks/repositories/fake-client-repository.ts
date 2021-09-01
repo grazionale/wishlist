@@ -8,7 +8,7 @@ import IClientPutRequestDTO from '../../../src/app/dtos/repositories/client-repo
 import IClientPutResponseDTO from '../../../src/app/dtos/repositories/client-repository-put-response-dto'
 
 class FakeClientRepository implements IClientRepository {
-  private readonly clients: Client[] = []
+  private clients: Client[] = []
 
   public async index (): Promise<IClientIndexResponseDTO[]> {
     return this.clients
@@ -39,6 +39,11 @@ class FakeClientRepository implements IClientRepository {
     }
     this.clients.push(clientData)
     return clientData
+  }
+
+  public async delete (clientId: number): Promise<string> {
+    this.clients = this.clients.filter(client => client.id !== clientId)
+    return 'Client successfully deleted'
   }
 }
 
