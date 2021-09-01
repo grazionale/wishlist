@@ -1,4 +1,4 @@
-import IClientShowResponseDTO from '../../dtos/services/client-service-show-response-dto'
+import IClientShowResponseDTO from '../../dtos/repositories/client-repository-show-response-dto'
 import IClientIndexResponseDTO from '../../dtos/repositories/client-repository-index-response-dto'
 import IClientPostRequestDTO from '../../dtos/repositories/client-repository-post-request-dto'
 import IClientPostResponseDTO from '../../dtos/repositories/client-repository-post-response-dto'
