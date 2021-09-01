@@ -1,12 +1,12 @@
 import { getRepository, Repository } from 'typeorm'
 import { Client } from '../entities/client'
-import IClientIndexResponseDTO from '../dtos/repositories/client-repository-index-response-dto'
-import IClientPostRequestDTO from '../dtos/repositories/client-repository-post-request-dto'
-import IClientPostResponseDTO from '../dtos/repositories/client-repository-post-response-dto'
-import IClientShowResponseDTO from '../dtos/repositories/client-repository-show-response-dto'
-import { IClientRepository } from '../interfaces/repositories/client-repository'
-import IClientPutRequestDTO from '../dtos/services/client-service-put-request-dto'
-import IClientPutResponseDTO from '../dtos/services/client-service-put-response-dto'
+import IClientIndexResponseDTO from '../dtos/repositories/client/client-repository-index-response-dto'
+import IClientPostRequestDTO from '../dtos/repositories/client/client-repository-post-request-dto'
+import IClientPostResponseDTO from '../dtos/repositories/client/client-repository-post-response-dto'
+import IClientShowResponseDTO from '../dtos/repositories/client/client-repository-show-response-dto'
+import { IClientRepository } from '../interfaces/repositories/client/client-repository'
+import IClientPutRequestDTO from '../dtos/services/client/client-service-put-request-dto'
+import IClientPutResponseDTO from '../dtos/services/client/client-service-put-response-dto'
 
 class ClientRepository implements IClientRepository {
   private readonly ormRepository: Repository<Client>

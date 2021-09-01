@@ -4,8 +4,8 @@ import { Client } from '../../src/app/entities/client'
 import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
-import IClientPostRequestDTO from '../../src/app/dtos/services/client-service-post-request-dto'
-import IClientPutRequestDTO from '../../src/app/dtos/repositories/client-repository-put-request-dto'
+import IClientPostRequestDTO from '../../src/app/dtos/services/client/client-service-post-request-dto'
+import IClientPutRequestDTO from '../../src/app/dtos/repositories/client/client-repository-put-request-dto'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()

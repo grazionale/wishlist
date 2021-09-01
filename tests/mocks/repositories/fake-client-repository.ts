@@ -1,11 +1,11 @@
 import { Client } from '../../../src/app/entities/client'
-import IClientIndexResponseDTO from '../../../src/app/dtos/repositories/client-repository-index-response-dto'
-import IClientPostRequestDTO from '../../../src/app/dtos/repositories/client-repository-post-request-dto'
-import IClientPostResponseDTO from '../../../src/app/dtos/repositories/client-repository-post-response-dto'
-import IClientShowResponseDTO from '../../../src/app/dtos/repositories/client-repository-show-response-dto'
-import { IClientRepository } from '../../../src/app/interfaces/repositories/client-repository'
-import IClientPutRequestDTO from '../../../src/app/dtos/repositories/client-repository-put-request-dto'
-import IClientPutResponseDTO from '../../../src/app/dtos/repositories/client-repository-put-response-dto'
+import IClientIndexResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-index-response-dto'
+import IClientPostRequestDTO from '../../../src/app/dtos/repositories/client/client-repository-post-request-dto'
+import IClientPostResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-post-response-dto'
+import IClientShowResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-show-response-dto'
+import { IClientRepository } from '../../../src/app/interfaces/repositories/client/client-repository'
+import IClientPutRequestDTO from '../../../src/app/dtos/repositories/client/client-repository-put-request-dto'
+import IClientPutResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-put-response-dto'
 
 class FakeClientRepository implements IClientRepository {
   private clients: Client[] = []
