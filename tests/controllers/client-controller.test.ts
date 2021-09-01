@@ -126,4 +126,20 @@ describe('Client Controller', () => {
         .expect(404)
     })
   })
+
+  describe('DELETE /api/clients/:client_id', () => {
+    test('Should return 200 on /api/clients/:client_id', async () => {
+      await request(app)
+        .delete('/api/clients/1')
+        .expect(200)
+    })
+  })
+
+  describe('DELETE /api/clients/:client_id', () => {
+    test('Should return 404 on /api/clients/:client_id with inexistent client_id', async () => {
+      await request(app)
+        .delete('/api/clients/100')
+        .expect(404)
+    })
+  })
 })
