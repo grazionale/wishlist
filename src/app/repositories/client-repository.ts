@@ -5,6 +5,8 @@ import IClientPostRequestDTO from '../dtos/repositories/client-repository-post-r
 import IClientPostResponseDTO from '../dtos/repositories/client-repository-post-response-dto'
 import IClientShowResponseDTO from '../dtos/repositories/client-repository-show-response-dto'
 import { IClientRepository } from '../interfaces/repositories/client-repository'
+import IClientPutRequestDTO from '../dtos/services/client-service-put-request-dto'
+import IClientPutResponseDTO from '../dtos/services/client-service-put-response-dto'
 
 class ClientRepository implements IClientRepository {
   private readonly ormRepository: Repository<Client>
@@ -35,6 +37,12 @@ class ClientRepository implements IClientRepository {
     const client = await this.ormRepository.findOne({ email: clientEmail })
 
     return client
+  }
+
+  public async update (client: IClientPutRequestDTO): Promise<IClientPutResponseDTO> {
+    const clientSaved = await this.ormRepository.save(client)
+
+    return clientSaved
   }
 }
 
