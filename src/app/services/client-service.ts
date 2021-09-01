@@ -51,6 +51,18 @@ class ClientService {
 
     return clientSaved
   }
+
+  public async delete (clientId: number): Promise<string> {
+    const findClient = await this.clientRepository.show(clientId.toString())
+
+    if (!findClient) {
+      throw new AppError('Client not exists', 404)
+    }
+
+    await this.clientRepository.delete(clientId)
+
+    return 'Client successfully deleted'
+  }
 }
 
 export default ClientService
