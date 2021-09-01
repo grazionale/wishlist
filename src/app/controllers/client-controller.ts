@@ -41,4 +41,14 @@ export default class ClientsController {
 
     return response.json(client)
   }
+
+  public async delete (request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params
+
+    const clientService = makeClientService()
+
+    const result = await clientService.delete(Number(client_id))
+
+    return response.json(result)
+  }
 }
