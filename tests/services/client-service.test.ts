@@ -62,7 +62,7 @@ describe('ClientService', () => {
     expect(client).toEqual({ ...mockClient, id: clientCreated.id })
   })
 
-  it('should be update one client', async () => {
+  it('should be return 404 when try update a client inexistent', async () => {
     const mockClient = makeClient()
 
     await expect(clientService.update({ ...mockClient, id: 100 }))
