@@ -1,5 +1,5 @@
 import AppError from '../errors/app-error'
-import IClientPostResponseDTO from '../dtos/repositories/client-repository-post-response-dto'
+import IClientPostResponseDTO from '../dtos/services/client-service-post-response-dto'
 import { IClientRepository } from '../interfaces/repositories/client-repository'
 import IClientIndexResponseDTO from '../dtos/services/client-service-index-response-dto'
 import IClientPostRequestDTO from '../dtos/services/client-service-post-request-dto'
