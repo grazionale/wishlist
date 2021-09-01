@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, Index, OneToMany } from 'typeorm'
+import { Favorite } from './favorite'
 
 @Entity()
 export class Client {
@@ -12,4 +13,7 @@ export class Client {
   @Index({ unique: true })
   @Column()
   email: string
+
+  @OneToMany(() => Favorite, favorite => favorite.client)
+  favorites: Favorite[]
 }
