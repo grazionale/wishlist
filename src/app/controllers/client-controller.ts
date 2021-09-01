@@ -5,13 +5,8 @@ export default class ClientsController {
   public async index (request: Request, response: Response): Promise<Response> {
     const clientService = makeClientService()
 
-    try {
-      const listOfClients = await clientService.index()
-      return response.json(listOfClients)
-    } catch (err) {
-      console.error(err)
-      return response.json({ error: err })
-    }
+    const listOfClients = await clientService.index() // TODO: remover try catch
+    return response.json(listOfClients)
   }
 
   public async show (request: Request, response: Response): Promise<Response> {
