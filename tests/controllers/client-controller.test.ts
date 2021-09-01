@@ -5,6 +5,7 @@ import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IClientPostRequestDTO from '../../src/app/dtos/services/client-service-post-request-dto'
+import IClientPutRequestDTO from '../../src/app/dtos/repositories/client-repository-put-request-dto'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()
@@ -16,6 +17,14 @@ const makeClient = (email?: string): Client => {
 
 const makePostRequest = (name?: string, email?: string): IClientPostRequestDTO => {
   return {
+    name: name || 'um nome qualquer',
+    email: email || 'umemailqualquer@email.com'
+  }
+}
+
+const makePutRequest = (id?: number, name?: string, email?: string): IClientPutRequestDTO => {
+  return {
+    id: id || 1,
     name: name || 'um nome qualquer',
     email: email || 'umemailqualquer@email.com'
   }
@@ -90,6 +99,31 @@ describe('Client Controller', () => {
         .post('/api/clients')
         .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
         .expect(400)
+    })
+  })
+
+  describe('PUT /api/clients/:client_id', () => {
+    test('Should return 200 on /api/clients/:client_id with correct payload and client_id', async () => {
+      const clientRequest = makePutRequest()
+
+      await request(app)
+        .put(`/api/clients/${clientRequest.id}`)
+        .send(clientRequest)
+        .expect(200)
+        .then(response => {
+          expect(response.body).toEqual(clientRequest)
+        })
+    })
+  })
+
+  describe('PUT /api/clients/:client_id', () => {
+    test('Should return 404 on /api/clients/:client_id with inexistent client_id', async () => {
+      const clientRequest = makePutRequest()
+
+      await request(app)
+        .put('/api/clients/100')
+        .send(clientRequest)
+        .expect(404)
     })
   })
 })
