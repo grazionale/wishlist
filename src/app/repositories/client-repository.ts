@@ -44,6 +44,11 @@ class ClientRepository implements IClientRepository {
 
     return clientSaved
   }
+
+  public async delete (clientId: number): Promise<string> {
+    await this.ormRepository.delete(clientId)
+    return 'Client successfully deleted'
+  }
 }
 
 export default ClientRepository

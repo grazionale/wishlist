@@ -11,4 +11,5 @@ export interface IClientRepository {
   findByEmail: (clientEmail: string) => Promise<IClientShowResponseDTO | undefined>
   create: (client: IClientPostRequestDTO) => Promise<IClientPostResponseDTO>
   update: (client: IClientPutRequestDTO) => Promise<IClientPutResponseDTO>
+  delete: (clientId: number) => Promise<string>
 }
