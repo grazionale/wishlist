@@ -30,4 +30,15 @@ export default class ClientsController {
 
     return response.json(client)
   }
+
+  public async put (request: Request, response: Response): Promise<Response> {
+    const { client_id } = request.params
+    const { name, email } = request.body
+
+    const clientService = makeClientService()
+
+    const client = await clientService.update({ id: Number(client_id), name, email })
+
+    return response.json(client)
+  }
 }
