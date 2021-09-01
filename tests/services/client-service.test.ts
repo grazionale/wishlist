@@ -3,10 +3,10 @@ import ClientService from '../../src/app/services/client-service'
 import AppError from '../../src/app/errors/app-error'
 import { Client } from '../../src/app/entities/client'
 
-const makeClient = (email?: string): Client => {
+const makeClient = (nome?: string, email?: string): Client => {
   const client = new Client()
   client.email = email || 'client@email.com'
-  client.name = 'client'
+  client.name = nome || 'client'
 
   return client
 }
@@ -51,5 +51,21 @@ describe('ClientService', () => {
 
     await expect(clientService.create(makeClient()))
       .rejects.toEqual(new AppError('Client already exists'))
+  })
+
+  it('should be update one client', async () => {
+    const clientCreated = await clientService.create(makeClient())
+
+    const mockClient = makeClient('nome_atualizado', 'atualizado@email.com')
+    const client = await clientService.update({ ...mockClient, id: clientCreated.id })
+
+    expect(client).toEqual({ ...mockClient, id: clientCreated.id })
+  })
+
+  it('should be update one client', async () => {
+    const mockClient = makeClient()
+
+    await expect(clientService.update({ ...mockClient, id: 100 }))
+      .rejects.toEqual(new AppError('Client not exists', 404))
   })
 })

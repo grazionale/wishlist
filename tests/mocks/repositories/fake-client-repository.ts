@@ -4,6 +4,8 @@ import IClientPostRequestDTO from '../../../src/app/dtos/repositories/client-rep
 import IClientPostResponseDTO from '../../../src/app/dtos/repositories/client-repository-post-response-dto'
 import IClientShowResponseDTO from '../../../src/app/dtos/repositories/client-repository-show-response-dto'
 import { IClientRepository } from '../../../src/app/interfaces/repositories/client-repository'
+import IClientPutRequestDTO from '../../../src/app/dtos/repositories/client-repository-put-request-dto'
+import IClientPutResponseDTO from '../../../src/app/dtos/repositories/client-repository-put-response-dto'
 
 class FakeClientRepository implements IClientRepository {
   private readonly clients: Client[] = []
@@ -26,6 +28,17 @@ class FakeClientRepository implements IClientRepository {
   public async findByEmail (clientEmail: string): Promise<IClientShowResponseDTO | undefined> {
     const findClient = this.clients.find(client => client.email === clientEmail)
     return findClient
+  }
+
+  public async update (clientData: IClientPutRequestDTO): Promise<IClientPutResponseDTO> {
+    const findClient = this.clients.find(client => client.id === clientData.id)
+    if (findClient) {
+      Object.assign(findClient, { ...clientData })
+      this.clients.push(findClient)
+      return findClient
+    }
+    this.clients.push(clientData)
+    return clientData
   }
 }
 
