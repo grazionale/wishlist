@@ -1,3 +1,4 @@
+import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import env from '../../config/env'
 import IAuthServiceAuthResponseDTO from '../dtos/services/auth-service/auth-service-auth-response-dto'
@@ -18,7 +19,12 @@ class AuthService {
       throw new AppError('user not found', 401) // TODO: alterar mensagem p/ incorrect email/password combination
     }
 
-    if (password !== userFind.password) {
+    const passwordMatched = await compare(
+      password,
+      userFind.password
+    )
+
+    if (!passwordMatched) {
       throw new AppError('incorrect email/password combination', 401)
     }
 
