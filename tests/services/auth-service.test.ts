@@ -19,9 +19,22 @@ describe('AuthService', () => {
     authService = new AuthService(fakeUserRepository)
   })
 
+  it('should be able to authenticate with correct credentials', async () => {
+    const request = makeUserCreateRequest()
+    await fakeUserRepository.create(request)
+
+    const result = await authService.auth(request.username, request.password)
+
+    expect(result).toBe('any_token')
+  })
+
   it('should not be able to authenticate with incorrect credentials', async () => {
-    await fakeUserRepository.create(makeUserCreateRequest())
-    await expect(authService.auth('magalu', '123456'))
+    const request = makeUserCreateRequest('magalu', '123456')
+    await fakeUserRepository.create(request)
+
+    await expect(authService.auth(
+      request.username, '654321'
+    ))
       .rejects.toEqual(new AppError('incorrect email/password combination', 401))
   })
 
