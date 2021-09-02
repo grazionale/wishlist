@@ -44,6 +44,6 @@ describe('AuthService', () => {
 
   it('should not be able to authenticate with non existing user', async () => {
     await expect(authService.auth('magalu', '123456'))
-      .rejects.toEqual(new AppError('user not found', 401))
+      .rejects.toEqual(new AppError('incorrect email/password combination', 401))
   })
 })

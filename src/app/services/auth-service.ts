@@ -16,7 +16,7 @@ class AuthService {
     const userFind = await this.userRepository.findByUsername(username)
 
     if (!userFind) {
-      throw new AppError('user not found', 401) // TODO: alterar mensagem p/ incorrect email/password combination
+      throw new AppError('incorrect email/password combination', 401) // TODO: alterar mensagem p/ incorrect email/password combination
     }
 
     const passwordMatched = await compare(
