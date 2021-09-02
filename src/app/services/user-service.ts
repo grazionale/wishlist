@@ -2,7 +2,6 @@ import AppError from '../errors/app-error'
 import IUserCreateResponseDTO from '../dtos/services/user/user-service-create-response-dto'
 import { IUserRepository } from '../interfaces/repositories/user/user-repository'
 import IUserCreateRequestDTO from '../dtos/services/user/user-service-create-request-dto'
-import IUserFindByUsernameResponseDTO from '../dtos/services/user/user-service-find-by-username-response-dto'
 
 class UserService {
   private readonly userRepository: IUserRepository
@@ -23,14 +22,6 @@ class UserService {
     const userSaved = await this.userRepository.create(user)
 
     return userSaved
-  }
-
-  public async delete (userId: number): Promise<string> {
-    return 'user successfully deleted'
-  }
-
-  public async findByUsername (username: string): Promise<IUserFindByUsernameResponseDTO | undefined> {
-    return undefined
   }
 }
 
