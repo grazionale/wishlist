@@ -34,7 +34,7 @@ describe('User Controller', () => {
         .send(payload)
         .expect(200)
         .then(response => {
-          expect(response.body).toEqual({ ...payload, id: response.body.id })
+          expect(response.body).toEqual({ username: payload.username, id: response.body.id })
         })
     })
   })

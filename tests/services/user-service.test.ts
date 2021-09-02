@@ -24,7 +24,7 @@ describe('UserService', () => {
 
     const user = await userService.create(request)
 
-    expect(user).toEqual({ ...request, id: user.id })
+    expect(user).toEqual({ username: request.username, id: user.id })
   })
 
   it('should be not insert one user with e-mail already created', async () => {

@@ -21,7 +21,10 @@ class UserService {
 
     const userSaved = await this.userRepository.create(user)
 
-    return userSaved
+    return {
+      id: userSaved.id,
+      username: userSaved.username
+    }
   }
 }
 
