@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs'
 import AppError from '../errors/app-error'
 import IUserCreateResponseDTO from '../dtos/services/user/user-service-create-response-dto'
 import { IUserRepository } from '../interfaces/repositories/user/user-repository'
@@ -19,7 +20,11 @@ class UserService {
       throw new AppError('username already used.', 400)
     }
 
-    const userSaved = await this.userRepository.create(user)
+    const hashedPassword = await hash(user.password, 8)
+    const userSaved = await this.userRepository.create({
+      username: user.username,
+      password: hashedPassword
+    })
 
     return {
       id: userSaved.id,
