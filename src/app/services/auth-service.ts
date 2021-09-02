@@ -15,7 +15,7 @@ class AuthService {
       throw new AppError('user not found', 401) // TODO: alterar mensagem p/ incorrect email/password combination
     }
 
-    if (username !== userFind.username || password !== userFind.password) {
+    if (password !== userFind.password) {
       throw new AppError('incorrect email/password combination', 401)
     }
 
