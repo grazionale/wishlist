@@ -1,3 +1,6 @@
+import { sign } from 'jsonwebtoken'
+import env from '../../config/env'
+import IAuthServiceAuthResponseDTO from '../dtos/services/auth-service/auth-service-auth-response-dto'
 import AppError from '../errors/app-error'
 import { IUserRepository } from '../interfaces/repositories/user/user-repository'
 
@@ -8,7 +11,7 @@ class AuthService {
     this.userRepository = userRepository
   }
 
-  public async auth (username: string, password: string): Promise<string> {
+  public async auth (username: string, password: string): Promise<IAuthServiceAuthResponseDTO> {
     const userFind = await this.userRepository.findByUsername(username)
 
     if (!userFind) {
@@ -19,7 +22,15 @@ class AuthService {
       throw new AppError('incorrect email/password combination', 401)
     }
 
-    return 'any_token'
+    const token = sign({}, env.jwt_secret, {
+      subject: userFind.id.toString(),
+      expiresIn: env.jwt_expiresIn
+    })
+
+    return {
+      user: userFind.username,
+      accessToken: token
+    }
   }
 }
 
