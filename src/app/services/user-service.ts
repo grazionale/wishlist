@@ -16,7 +16,7 @@ class UserService {
     const findUser = await this.userRepository.findByUsername(user.username)
 
     if (findUser) {
-      throw new AppError('username already used.')
+      throw new AppError('username already used.', 400)
     }
 
     const userSaved = await this.userRepository.create(user)
