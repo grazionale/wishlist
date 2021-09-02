@@ -1,6 +1,7 @@
 import IUserCreateRequestDTO from '../../src/app/dtos/repositories/user/user-repository-create-request-dto'
 import AppError from '../../src/app/errors/app-error'
 import AuthService from '../../src/app/services/auth-service'
+import UserService from '../../src/app/services/user-service'
 import FakeUserRepository from '../mocks/repositories/fake-user-repository'
 
 const makeUserCreateRequest = (username?: string, password?: string): IUserCreateRequestDTO => {
@@ -12,16 +13,18 @@ const makeUserCreateRequest = (username?: string, password?: string): IUserCreat
 
 describe('AuthService', () => {
   let authService: AuthService
+  let userService: UserService
   let fakeUserRepository: FakeUserRepository
 
   beforeEach(() => {
     fakeUserRepository = new FakeUserRepository()
+    userService = new UserService(fakeUserRepository)
     authService = new AuthService(fakeUserRepository)
   })
 
   it('should be able to authenticate with correct credentials', async () => {
     const request = makeUserCreateRequest()
-    await fakeUserRepository.create(request)
+    await userService.create(request)
 
     const result = await authService.auth(request.username, request.password)
 
@@ -30,7 +33,7 @@ describe('AuthService', () => {
 
   it('should not be able to authenticate with incorrect credentials', async () => {
     const request = makeUserCreateRequest('magalu', '123456')
-    await fakeUserRepository.create(request)
+    await userService.create(request)
 
     await expect(authService.auth(
       request.username, '654321'
