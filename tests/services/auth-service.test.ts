@@ -28,7 +28,8 @@ describe('AuthService', () => {
 
     const result = await authService.auth(request.username, request.password)
 
-    expect(result).toBe('any_token')
+    expect(result).toHaveProperty('accessToken')
+    expect(result.user).toBe(request.username)
   })
 
   it('should not be able to authenticate with incorrect credentials', async () => {
