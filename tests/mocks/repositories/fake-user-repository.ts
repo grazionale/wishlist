@@ -5,7 +5,7 @@ import IUserFindByUsernameResponseDTO from '../../../src/app/dtos/repositories/u
 import { IUserRepository } from '../../../src/app/interfaces/repositories/user/user-repository'
 
 class FakeUserRepository implements IUserRepository {
-  private users: User[] = []
+  private readonly users: User[] = []
 
   public async findByUsername (username: string): Promise<IUserFindByUsernameResponseDTO | undefined> {
     return this.users.find(user => user.username.toString() === username)
@@ -16,11 +16,6 @@ class FakeUserRepository implements IUserRepository {
     Object.assign(user, { id: 1, ...userData })
     this.users.push(user)
     return user
-  }
-
-  public async delete (userId: number): Promise<string> {
-    this.users = this.users.filter(user => user.id !== userId)
-    return 'User successfully deleted'
   }
 }
 

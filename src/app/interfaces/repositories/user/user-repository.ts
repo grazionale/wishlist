@@ -5,5 +5,4 @@ import IUserFindByUsernameResponseDTO from '../../../dtos/repositories/user/user
 export interface IUserRepository {
   findByUsername: (username: string) => Promise<IUserFindByUsernameResponseDTO | undefined>
   create: (user: IUserCreateRequestDTO) => Promise<IUserCreateResponseDTO>
-  delete: (userId: number) => Promise<string>
 }
