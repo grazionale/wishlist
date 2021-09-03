@@ -1,5 +1,6 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
+import jwt from 'jsonwebtoken'
 import { Client } from '../../src/app/entities/client'
 import app from '../../src/config/app'
 import SetupDatabase from '../../src/config/setup-database'
@@ -33,16 +34,24 @@ describe('Client Routes', () => {
 
   describe('GET /api/clients', () => {
     test('Should return 200 on /api/clients', async () => {
+      const verify = jest.spyOn(jwt, 'verify')
+      verify.mockImplementation(() => () => ({ verified: 'true' }))
+
       await request(app)
         .get('/api/clients')
+        .set('Authorization', 'Bearer 123123')
         .expect(200)
     })
   })
 
   describe('GET /api/clients/:client_id', () => {
     test('Should return 200 on /api/clients/:client_id', async () => {
+      const verify = jest.spyOn(jwt, 'verify')
+      verify.mockImplementation(() => () => ({ verified: 'true' }))
+
       await request(app)
         .get('/api/clients/1')
+        .set('Authorization', 'Bearer 123123')
         .expect(200)
     })
   })

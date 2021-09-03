@@ -7,6 +7,10 @@ import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 import { Client } from '../../src/app/entities/client'
+import UserService from '../../src/app/services/user-service'
+import UserRepository from '../../src/app/repositories/user-repository'
+import AuthService from '../../src/app/services/auth-service'
+import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 
 const makeFavorite = (clientId?: number, externalProductId?: string): Favorite => {
   const favorite = new Favorite()
@@ -31,26 +35,40 @@ const makePostRequest = (clientId?: number, externalProductId?: string): IFavori
   }
 }
 
-const mockMagaluShowResponse =
-  {
-    price: 1699,
-    image: 'http://challenge-api.luizalabs.com/images/1bf0f365-fbdd-4e21-9786-da459d78dd1f.jpg',
-    brand: 'bébé confort',
-    id: '123-123-123-123',
-    title: 'Cadeira para Auto Iseos Bébé Confort Earth Brown'
-  }
+const mockMagaluShowResponse = {
+  price: 1699,
+  image: 'http://challenge-api.luizalabs.com/images/1bf0f365-fbdd-4e21-9786-da459d78dd1f.jpg',
+  brand: 'bébé confort',
+  id: '123-123-123-123',
+  title: 'Cadeira para Auto Iseos Bébé Confort Earth Brown'
+}
+
+const mockUser = {
+  username: 'magalu', password: '123456'
+}
 
 describe('Favorite Controller', () => {
   let setupDatabase: SetupDatabase
   let favoriteRepository: Repository<Favorite>
   let clientRepository: Repository<Client>
+  let userService: UserService
+  let userRepsitory: UserRepository
+  let authService: AuthService
+  let authResponse: IAuthServiceAuthResponseDTO
 
   beforeEach(async () => {
     setupDatabase = new SetupDatabase(config)
     await setupDatabase.handle()
 
+    userRepsitory = new UserRepository()
+    userService = new UserService(userRepsitory)
+    authService = new AuthService(userRepsitory)
+
     favoriteRepository = getRepository(Favorite)
     clientRepository = getRepository(Client)
+
+    await userService.create(mockUser)
+    authResponse = await authService.auth(mockUser.username, mockUser.password)
   })
 
   afterEach(async () => {
@@ -65,6 +83,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .get(`/api/favorites?client_id=${client.id}`)
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
         .then(response => {
           expect(response.body).toEqual([favorite])
@@ -74,6 +93,7 @@ describe('Favorite Controller', () => {
     test('Should return 400 on /api/favorites with not inform client_id query param', async () => {
       await request(app)
         .get('/api/favorites')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(400)
     })
 
@@ -83,6 +103,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .get(`/api/favorites/${favorite.id}`)
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
   })
@@ -91,6 +112,7 @@ describe('Favorite Controller', () => {
     test('Should return 404 on /api/favorites/:favorite_id with inexistent id', async () => {
       await request(app)
         .get('/api/favorites/3')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(404)
     })
   })
@@ -108,6 +130,7 @@ describe('Favorite Controller', () => {
       await request(app)
         .post('/api/favorites')
         .send(mockRequest)
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
         .then(response => {
           expect(response.body).toEqual({ ...mockRequest, id: response.body.id })
@@ -126,6 +149,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .post('/api/favorites')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(mockRequest)
         .expect(400)
     })
@@ -135,6 +159,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .post('/api/favorites')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(mockRequest)
         .expect(404)
     })
@@ -149,6 +174,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .post('/api/favorites')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(mockRequest)
         .expect(404)
     })
@@ -161,6 +187,7 @@ describe('Favorite Controller', () => {
 
       await request(app)
         .delete(`/api/favorites/${favorite.id}`)
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
   })
@@ -169,6 +196,7 @@ describe('Favorite Controller', () => {
     test('Should return 404 on /api/favorites/:favorite_id with inexistent favorite_id', async () => {
       await request(app)
         .delete('/api/favorites/100')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(404)
     })
   })

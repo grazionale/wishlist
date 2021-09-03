@@ -6,6 +6,10 @@ import SetupDatabase from '../../src/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IClientPostRequestDTO from '../../src/app/dtos/services/client/client-service-post-request-dto'
 import IClientPutRequestDTO from '../../src/app/dtos/repositories/client/client-repository-put-request-dto'
+import UserService from '../../src/app/services/user-service'
+import UserRepository from '../../src/app/repositories/user-repository'
+import AuthService from '../../src/app/services/auth-service'
+import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()
@@ -30,13 +34,25 @@ const makePutRequest = (id?: number, name?: string, email?: string): IClientPutR
   }
 }
 
+const mockUser = {
+  username: 'magalu', password: '123456'
+}
+
 describe('Client Controller', () => {
   let setupDatabase: SetupDatabase
   let clientRepository: Repository<Client>
+  let userService: UserService
+  let userRepsitory: UserRepository
+  let authService: AuthService
+  let authResponse: IAuthServiceAuthResponseDTO
 
   beforeEach(async () => {
     setupDatabase = new SetupDatabase(config)
     await setupDatabase.handle()
+
+    userRepsitory = new UserRepository()
+    userService = new UserService(userRepsitory)
+    authService = new AuthService(userRepsitory)
 
     clientRepository = getRepository(Client)
 
@@ -44,6 +60,9 @@ describe('Client Controller', () => {
       [makeClient(),
         makeClient('client2@email.com')]
     )
+
+    await userService.create(mockUser)
+    authResponse = await authService.auth(mockUser.username, mockUser.password)
   })
 
   afterEach(async () => {
@@ -55,6 +74,7 @@ describe('Client Controller', () => {
     test('Should return 200 on /api/clients', async () => {
       await request(app)
         .get('/api/clients')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
   })
@@ -63,6 +83,7 @@ describe('Client Controller', () => {
     test('Should return 200 on /api/clients/:client_id', async () => {
       await request(app)
         .get('/api/clients/2')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
   })
@@ -71,6 +92,7 @@ describe('Client Controller', () => {
     test('Should return 404 on /api/clients/:client_id with inexistent id', async () => {
       await request(app)
         .get('/api/clients/3')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(404)
     })
   })
@@ -79,6 +101,7 @@ describe('Client Controller', () => {
     test('Should return 200 on /api/clients with correct payload', async () => {
       await request(app)
         .post('/api/clients')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
         .expect(200)
         .then(response => {
@@ -92,11 +115,13 @@ describe('Client Controller', () => {
     test('Should return 400 on /api/clients with correct payload but already existing client', async () => {
       await request(app)
         .post('/api/clients')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
         .expect(200)
 
       await request(app)
         .post('/api/clients')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(makePostRequest('Cliente POST', 'client_post@hotmail.com'))
         .expect(400)
     })
@@ -108,6 +133,7 @@ describe('Client Controller', () => {
 
       await request(app)
         .put(`/api/clients/${clientRequest.id}`)
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(clientRequest)
         .expect(200)
         .then(response => {
@@ -122,6 +148,7 @@ describe('Client Controller', () => {
 
       await request(app)
         .put('/api/clients/100')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .send(clientRequest)
         .expect(404)
     })
@@ -131,6 +158,7 @@ describe('Client Controller', () => {
     test('Should return 200 on /api/clients/:client_id', async () => {
       await request(app)
         .delete('/api/clients/1')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
   })
@@ -139,6 +167,7 @@ describe('Client Controller', () => {
     test('Should return 404 on /api/clients/:client_id with inexistent client_id', async () => {
       await request(app)
         .delete('/api/clients/100')
+        .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(404)
     })
   })
