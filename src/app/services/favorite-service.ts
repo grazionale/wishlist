@@ -6,19 +6,23 @@ import IFavoritePostRequestDTO from '../dtos/services/favorite/favorite-service-
 import IFavoriteShowResponseDTO from '../dtos/services/favorite/favorite-service-show-response-dto'
 import { IClientRepository } from '../interfaces/repositories/client/client-repository'
 import MagaluProductService from './magalu-product-service'
+import { IProductRepository } from '../interfaces/repositories/product/product-repository'
 
 class FavoriteService {
   private readonly favoriteRepository: IFavoriteRepository
   private readonly clientRepository: IClientRepository
+  private readonly productRepository: IProductRepository
   private readonly magaluProductService: MagaluProductService
 
   constructor (
     favoriteRepository: IFavoriteRepository,
     clientRepository: IClientRepository,
+    productRepository: IProductRepository,
     magaluProductService: MagaluProductService
   ) {
     this.favoriteRepository = favoriteRepository
     this.clientRepository = clientRepository
+    this.productRepository = productRepository
     this.magaluProductService = magaluProductService
   }
 
@@ -45,15 +49,31 @@ class FavoriteService {
       throw new AppError('client not found', 404)
     }
 
-    await this.verifyProductExistsOnMagalu(favorite.externalProductId)
+    const magaluProduct = await this.getProductOnMagalu(favorite.externalProductId)
 
-    const alreadyExists = await this.favoriteRepository.verifyAlreadyExists(favorite.clientId, favorite.externalProductId)
+    const productFind = await this.productRepository.findByIntegrationId(favorite.externalProductId)
 
-    if (alreadyExists) {
-      throw new AppError('favorite already exists', 400)
+    let product = productFind
+
+    if (product) {
+      const favoriteAlreadyExists = await this.favoriteRepository.verifyAlreadyExists(favorite.clientId, product?.id)
+
+      if (favoriteAlreadyExists) {
+        throw new AppError('favorite already exists', 400)
+      }
+    } else {
+      product = await this.productRepository.create({
+        integrationId: magaluProduct.id,
+        title: magaluProduct.title,
+        price: magaluProduct.price,
+        image: magaluProduct.image
+      })
     }
 
-    const favoriteSaved = await this.favoriteRepository.create(favorite)
+    const favoriteSaved = await this.favoriteRepository.create({
+      clientId: findClient.id,
+      productId: product.id
+    })
 
     return favoriteSaved
   }
@@ -70,9 +90,9 @@ class FavoriteService {
     return 'favorite successfully deleted'
   }
 
-  private async verifyProductExistsOnMagalu (externalProductId: string): Promise<boolean> {
+  private async getProductOnMagalu (externalProductId: string): Promise<any> {
     const findProduct = await this.magaluProductService.show(externalProductId)
-    return !!findProduct
+    return findProduct
   }
 }
 

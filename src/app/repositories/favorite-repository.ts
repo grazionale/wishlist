@@ -25,13 +25,13 @@ class FavoriteRepository implements IFavoriteRepository {
     return favorite
   }
 
-  public async verifyAlreadyExists (clientId: number, externalProductId: string): Promise<IFavoriteShowResponseDTO | undefined> {
+  public async verifyAlreadyExists (clientId: number, productId: number): Promise<boolean> {
     const favorite = await this.ormRepository.findOne({
       clientId: clientId,
-      externalProductId: externalProductId
+      productId: productId
     })
 
-    return favorite
+    return !!favorite
   }
 
   public async create (favorite: IFavoritePostRequestDTO): Promise<IFavoritePostResponseDTO> {

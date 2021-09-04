@@ -6,7 +6,7 @@ import IFavoritePostResponseDTO from '../../../dtos/repositories/favorite/favori
 export interface IFavoriteRepository {
   index: (clientId: number) => Promise<IFavoriteIndexResponseDTO[]>
   show: (favoriteId: string) => Promise<IFavoriteShowResponseDTO | undefined>
-  verifyAlreadyExists: (clientId: number, externalProductId: string) => Promise<IFavoriteShowResponseDTO | undefined>
+  verifyAlreadyExists: (clientId: number, productId: number) => Promise<boolean>
   create: (favorite: IFavoritePostRequestDTO) => Promise<IFavoritePostResponseDTO>
   delete: (favoriteId: number) => Promise<string>
 }
