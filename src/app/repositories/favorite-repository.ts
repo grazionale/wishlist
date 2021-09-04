@@ -14,13 +14,19 @@ class FavoriteRepository implements IFavoriteRepository {
   }
 
   public async index (clientId: number): Promise<IFavoriteIndexResponseDTO[]> {
-    const listOfFavorites = await this.ormRepository.find({ clientId: clientId })
+    const listOfFavorites = await this.ormRepository.find({
+      relations: ['client', 'product'],
+      where: { clientId: clientId }
+    })
 
     return listOfFavorites
   }
 
   public async show (favoriteId: string): Promise<IFavoriteShowResponseDTO | undefined> {
-    const favorite = await this.ormRepository.findOne(favoriteId)
+    const favorite = await this.ormRepository.findOne({
+      relations: ['client', 'product'],
+      where: { id: favoriteId }
+    })
 
     return favorite
   }

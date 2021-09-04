@@ -1,5 +1,8 @@
+import { Client } from '../../../entities/client'
+import { Product } from '../../../entities/product'
+
 export default interface IFavoriteShowResponseDTO {
   id: number
-  productId: number
-  clientId: number
+  product: Product
+  client: Client
 }
