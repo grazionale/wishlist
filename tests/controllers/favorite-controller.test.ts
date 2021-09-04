@@ -94,14 +94,14 @@ describe('Favorite Controller', () => {
     test('Should return 200 on /api/favorites?client_id=1', async () => {
       const client = await clientRepository.save(makeClient())
       const product = await productRepository.save(makeProduct())
-      const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
+      await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
         .get(`/api/favorites?client_id=${client.id}`)
         .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
         .then(response => {
-          expect(response.body).toEqual([favorite])
+          expect(response.body).toHaveLength(1)
         })
     })
 
