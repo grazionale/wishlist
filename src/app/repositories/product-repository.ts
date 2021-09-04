@@ -4,6 +4,8 @@ import IProductShowResponseDTO from '../dtos/repositories/product/product-reposi
 import { IProductRepository } from '../interfaces/repositories/product/product-repository'
 import IProductCreateRequestDTO from '../dtos/repositories/product/product-repository-create-request-dto'
 import IProductCreateResponseDTO from '../dtos/repositories/product/product-repository-create-response-dto'
+import IProductUpdateRequestDTO from '../dtos/repositories/product/product-repository-update-request-dto'
+import IProductUpdateResponseDTO from '../dtos/repositories/product/product-repository-update-response-dto'
 
 class ProductRepository implements IProductRepository {
   private readonly ormRepository: Repository<Product>
@@ -19,6 +21,12 @@ class ProductRepository implements IProductRepository {
   }
 
   public async create (product: IProductCreateRequestDTO): Promise<IProductCreateResponseDTO> {
+    const productSaved = await this.ormRepository.save(product)
+
+    return productSaved
+  }
+
+  public async update (product: IProductUpdateRequestDTO): Promise<IProductUpdateResponseDTO> {
     const productSaved = await this.ormRepository.save(product)
 
     return productSaved
