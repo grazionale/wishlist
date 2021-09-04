@@ -1,5 +1,5 @@
 export default interface IFavoriteShowResponseDTO {
   id: number
-  externalProductId: string
+  productId: number
   clientId: number
 }

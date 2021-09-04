@@ -1,4 +1,4 @@
 export default interface IFavoritePostRequestDTO {
-  externalProductId: string
+  productId: number
   clientId: number
 }
