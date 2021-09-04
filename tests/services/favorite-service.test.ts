@@ -1,18 +1,18 @@
 import FakeFavoriteRepository from '../mocks/repositories/fake-favorite-repository'
 import FavoriteService from '../../src/app/services/favorite-service'
 import AppError from '../../src/app/errors/app-error'
-import { Favorite } from '../../src/app/entities/favorite'
 import FakeClientRepository from '../mocks/repositories/fake-client-repository'
 import MagaluProductService from '../../src/app/services/magalu-product-service'
 import ClientService from '../../src/app/services/client-service'
 import { Client } from '../../src/app/entities/client'
+import FakeProductRepository from '../mocks/repositories/fake-product-repository'
+import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 
-const makeFavorite = (clientId?: number, externalProductId?: string): Favorite => {
-  const favorite = new Favorite()
-  favorite.clientId = clientId || 1
-  favorite.externalProductId = externalProductId || '1bf0f365-fbdd-4e21-9786-da459d78dd1f'
-
-  return favorite
+const makeFavorite = (clientId?: number, externalProductId?: string): IFavoritePostRequestDTO => {
+  return {
+    clientId: clientId || 1,
+    externalProductId: externalProductId || '123-123-123-123-123'
+  }
 }
 
 const makeClient = (nome?: string, email?: string): Client => {
@@ -34,6 +34,7 @@ const mockMagaluShowResponse =
 
 describe('FavoriteService', () => {
   let fakeFavoriteRepository: FakeFavoriteRepository
+  let fakeProductRepository: FakeProductRepository
   let favoriteService: FavoriteService
   let clientService: ClientService
   let fakeClientRepository: FakeClientRepository
@@ -42,8 +43,9 @@ describe('FavoriteService', () => {
   beforeEach(() => {
     fakeFavoriteRepository = new FakeFavoriteRepository()
     fakeClientRepository = new FakeClientRepository()
+    fakeProductRepository = new FakeProductRepository()
     magaluProductService = new MagaluProductService()
-    favoriteService = new FavoriteService(fakeFavoriteRepository, fakeClientRepository, magaluProductService)
+    favoriteService = new FavoriteService(fakeFavoriteRepository, fakeClientRepository, fakeProductRepository, magaluProductService)
     clientService = new ClientService(fakeClientRepository)
   })
 
@@ -81,7 +83,7 @@ describe('FavoriteService', () => {
       .rejects.toEqual(new AppError('favorite not found', 404))
   })
 
-  it('should be insert one favorite', async () => {
+  it('should be insert one favorite with inexistent product in database', async () => {
     const client = await clientService.create(makeClient())
     const mockFavorite = makeFavorite(client.id)
 
@@ -91,7 +93,27 @@ describe('FavoriteService', () => {
 
     const favorite = await favoriteService.create(mockFavorite)
 
-    expect(favorite).toEqual({ ...mockFavorite, id: favorite.id })
+    expect(favorite).toEqual({ id: favorite.id, productId: 1, clientId: client.id })
+  })
+
+  it('should be insert one favorite with existent product in database', async () => {
+    const client = await clientService.create(makeClient())
+    const mockFavorite = makeFavorite(client.id, mockMagaluShowResponse.id)
+
+    jest.spyOn(magaluProductService, 'show').mockImplementationOnce(
+      async (): Promise<any> => await Promise.resolve(mockMagaluShowResponse)
+    )
+
+    await fakeProductRepository.create({
+      integrationId: mockMagaluShowResponse.id,
+      title: mockMagaluShowResponse.title,
+      price: mockMagaluShowResponse.price,
+      image: mockMagaluShowResponse.image
+    })
+
+    const favorite = await favoriteService.create(mockFavorite)
+
+    expect(favorite).toEqual({ id: favorite.id, productId: 1, clientId: client.id })
   })
 
   it('should be return 400 when try insert favorite with same product', async () => {

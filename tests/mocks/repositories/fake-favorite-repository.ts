@@ -23,12 +23,12 @@ class FakeFavoriteRepository implements IFavoriteRepository {
     return favorite
   }
 
-  public async verifyAlreadyExists (clientId: number, externalProductId: string): Promise<IFavoriteShowResponseDTO | undefined> {
+  public async verifyAlreadyExists (clientId: number, productId: number): Promise<boolean> {
     const findFavorite = this.favorites.find(favorite =>
       favorite.clientId === clientId &&
-      favorite.externalProductId === externalProductId
+      favorite.productId === productId
     )
-    return findFavorite
+    return !!findFavorite
   }
 
   public async delete (favoriteId: number): Promise<string> {
