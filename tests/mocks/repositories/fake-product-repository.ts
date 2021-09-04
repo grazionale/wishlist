@@ -3,6 +3,8 @@ import IProductCreateRequestDTO from '../../../src/app/dtos/repositories/product
 import IProductCreateResponseDTO from '../../../src/app/dtos/repositories/product/product-repository-create-response-dto'
 import IProductShowResponseDTO from '../../../src/app/dtos/repositories/product/product-repository-show-response-dto'
 import { IProductRepository } from '../../../src/app/interfaces/repositories/product/product-repository'
+import IProductUpdateRequestDTO from '../../../src/app/dtos/repositories/product/product-repository-update-request-dto'
+import IProductUpdateResponseDTO from '../../../src/app/dtos/repositories/product/product-repository-update-response-dto'
 
 class FakeProductRepository implements IProductRepository {
   private readonly products: Product[] = []
@@ -16,6 +18,17 @@ class FakeProductRepository implements IProductRepository {
     Object.assign(product, { id: 1, ...productData })
     this.products.push(product)
     return product
+  }
+
+  public async update (productData: IProductUpdateRequestDTO): Promise<IProductUpdateResponseDTO> {
+    const findProduct = this.products.find(product => product.integrationId === productData.integrationId)
+    if (findProduct) {
+      Object.assign(findProduct, { ...productData })
+      this.products.push(findProduct)
+      return findProduct
+    }
+    this.products.push({ favorites: [], ...productData })
+    return productData
   }
 
   public async findByIntegrationId (integrationId: string): Promise<IProductShowResponseDTO | undefined> {

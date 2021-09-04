@@ -37,4 +37,20 @@ describe('ProductService', () => {
       productService.create(request)
     ).rejects.toEqual(new AppError('product already exists'))
   })
+
+  it('should be update one product', async () => {
+    const request = makeProductCreateRequest()
+    const productCreated = await productService.create(request)
+
+    const product = await productService.update(request)
+
+    expect(product).toEqual({ ...request, id: productCreated.id })
+  })
+
+  it('should be return 404 when try update a product inexistent', async () => {
+    const request = makeProductCreateRequest()
+
+    await expect(productService.update(request))
+      .rejects.toEqual(new AppError('product not exists', 404))
+  })
 })
