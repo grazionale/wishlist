@@ -35,3 +35,12 @@ yarn install
 ```
 yarn test
 ```
+
+## Como executar comandos do TypeOrm
+Basta adicionar "yarn" antes do comando, exemplos:
+```
+yarn typeorm migration:run
+```
+```
+yarn typeorm migration:generate -n CreateTableTest
+```
