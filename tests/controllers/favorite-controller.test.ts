@@ -11,11 +11,13 @@ import UserService from '../../src/app/services/user-service'
 import UserRepository from '../../src/app/repositories/user-repository'
 import AuthService from '../../src/app/services/auth-service'
 import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
+import { Product } from '../../src/app/entities/product'
+import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
 
-const makeFavorite = (clientId?: number, externalProductId?: string): Favorite => {
+const makeFavorite = (clientId?: number, productId?: number): Favorite => {
   const favorite = new Favorite()
   favorite.clientId = clientId || 1
-  favorite.externalProductId = externalProductId || '123-123-123'
+  favorite.productId = productId || 1
 
   return favorite
 }
@@ -26,6 +28,16 @@ const makeClient = (email?: string): Client => {
   client.name = 'client'
 
   return client
+}
+
+const makeProduct = (productRequest?: IProductCreateRequestDTO): Product => {
+  const product = new Product()
+  product.integrationId = productRequest?.integrationId || '123-123-123'
+  product.title = productRequest?.title || 'Boneca Molenga'
+  product.price = productRequest?.price || 100.00
+  product.image = productRequest?.image || 'http://challenge-api.luizalabs.com/images/1bf0f365-fbdd-4e21-9786-da459d78dd1f.jpg'
+
+  return product
 }
 
 const makePostRequest = (clientId?: number, externalProductId?: string): IFavoritePostRequestDTO => {
@@ -51,6 +63,7 @@ describe('Favorite Controller', () => {
   let setupDatabase: SetupDatabase
   let favoriteRepository: Repository<Favorite>
   let clientRepository: Repository<Client>
+  let productRepository: Repository<Product>
   let userService: UserService
   let userRepsitory: UserRepository
   let authService: AuthService
@@ -66,6 +79,7 @@ describe('Favorite Controller', () => {
 
     favoriteRepository = getRepository(Favorite)
     clientRepository = getRepository(Client)
+    productRepository = getRepository(Product)
 
     await userService.create(mockUser)
     authResponse = await authService.auth(mockUser.username, mockUser.password)
@@ -79,7 +93,8 @@ describe('Favorite Controller', () => {
   describe('GET /api/favorites', () => {
     test('Should return 200 on /api/favorites?client_id=1', async () => {
       const client = await clientRepository.save(makeClient())
-      const favorite = await favoriteRepository.save(makeFavorite(client.id))
+      const product = await productRepository.save(makeProduct())
+      const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
         .get(`/api/favorites?client_id=${client.id}`)
@@ -99,7 +114,8 @@ describe('Favorite Controller', () => {
 
     test('Should return 200 on /api/favorites/:favorite_id', async () => {
       const client = await clientRepository.save(makeClient())
-      const favorite = await favoriteRepository.save(makeFavorite(client.id))
+      const product = await productRepository.save(makeProduct())
+      const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
         .get(`/api/favorites/${favorite.id}`)
@@ -121,6 +137,13 @@ describe('Favorite Controller', () => {
     test('Should return 200 on /api/favorites with correct payload', async () => {
       const client = await clientRepository.save(makeClient())
 
+      const product = await productRepository.save(makeProduct({
+        integrationId: mockMagaluShowResponse.id,
+        title: mockMagaluShowResponse.title,
+        price: mockMagaluShowResponse.price,
+        image: mockMagaluShowResponse.image
+      }))
+
       nock('http://challenge-api.luizalabs.com')
         .get(`/api/product/${mockMagaluShowResponse.id}/`)
         .reply(200, mockMagaluShowResponse)
@@ -133,19 +156,27 @@ describe('Favorite Controller', () => {
         .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
         .then(response => {
-          expect(response.body).toEqual({ ...mockRequest, id: response.body.id })
+          expect(response.body).toEqual({ id: response.body.id, clientId: mockRequest.clientId, productId: product.id })
         })
     })
 
     test('Should return 400 on /api/favorites with already existing favorite', async () => {
       const client = await clientRepository.save(makeClient())
-      const mockRequest = makePostRequest(client.id, mockMagaluShowResponse.id)
+
+      const product = await productRepository.save(makeProduct({
+        integrationId: mockMagaluShowResponse.id,
+        title: mockMagaluShowResponse.title,
+        price: mockMagaluShowResponse.price,
+        image: mockMagaluShowResponse.image
+      }))
 
       nock('http://challenge-api.luizalabs.com')
         .get(`/api/product/${mockMagaluShowResponse.id}/`)
         .reply(200, mockMagaluShowResponse)
 
-      await favoriteRepository.save(mockRequest)
+      const mockRequest = makePostRequest(client.id, mockMagaluShowResponse.id)
+
+      await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
         .post('/api/favorites')
@@ -183,16 +214,15 @@ describe('Favorite Controller', () => {
   describe('DELETE /api/favorites/:favorite_id', () => {
     test('Should return 200 on /api/favorites/:favorite_id', async () => {
       const client = await clientRepository.save(makeClient())
-      const favorite = await favoriteRepository.save(makeFavorite(client.id))
+      const product = await productRepository.save(makeProduct())
+      const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
         .delete(`/api/favorites/${favorite.id}`)
         .set('Authorization', `Bearer ${authResponse.accessToken}`)
         .expect(200)
     })
-  })
 
-  describe('DELETE /api/favorites/:favorite_id', () => {
     test('Should return 404 on /api/favorites/:favorite_id with inexistent favorite_id', async () => {
       await request(app)
         .delete('/api/favorites/100')
