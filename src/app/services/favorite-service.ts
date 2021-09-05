@@ -56,7 +56,7 @@ class FavoriteService {
     let product = productFind
 
     if (product) {
-      const favoriteAlreadyExists = await this.favoriteRepository.verifyAlreadyExists(favorite.clientId, product?.id)
+      const favoriteAlreadyExists = await this.favoriteRepository.verifyAlreadyExists(favorite.clientId, product.id)
 
       if (favoriteAlreadyExists) {
         throw new AppError('favorite already exists', 400)
