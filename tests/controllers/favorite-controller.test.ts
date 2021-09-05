@@ -13,6 +13,10 @@ import AuthService from '../../src/app/services/auth-service'
 import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 import { Product } from '../../src/app/entities/product'
 import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
+import ClientService from '../../src/app/services/client-service'
+import { makeClientService } from '../../src/app/factories/services/client-service-factory'
+import ProductService from '../../src/app/services/product-service'
+import { makeProductService } from '../../src/app/factories/services/product-service-factory'
 
 const makeFavorite = (clientId?: number, productId?: number): Favorite => {
   const favorite = new Favorite()
@@ -62,8 +66,8 @@ const mockUser = {
 describe('Favorite Controller', () => {
   let setupDatabase: SetupDatabase
   let favoriteRepository: Repository<Favorite>
-  let clientRepository: Repository<Client>
-  let productRepository: Repository<Product>
+  let clientService: ClientService
+  let productService: ProductService
   let userService: UserService
   let userRepsitory: UserRepository
   let authService: AuthService
@@ -78,8 +82,8 @@ describe('Favorite Controller', () => {
     authService = new AuthService(userRepsitory)
 
     favoriteRepository = getRepository(Favorite)
-    clientRepository = getRepository(Client)
-    productRepository = getRepository(Product)
+    clientService = makeClientService()
+    productService = makeProductService()
 
     await userService.create(mockUser)
     authResponse = await authService.auth(mockUser.username, mockUser.password)
@@ -92,8 +96,8 @@ describe('Favorite Controller', () => {
 
   describe('GET /api/favorites', () => {
     test('Should return 200 on /api/favorites?client_id=1', async () => {
-      const client = await clientRepository.save(makeClient())
-      const product = await productRepository.save(makeProduct())
+      const client = await clientService.create(makeClient())
+      const product = await productService.create(makeProduct())
       await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
@@ -113,8 +117,8 @@ describe('Favorite Controller', () => {
     })
 
     test('Should return 200 on /api/favorites/:favorite_id', async () => {
-      const client = await clientRepository.save(makeClient())
-      const product = await productRepository.save(makeProduct())
+      const client = await clientService.create(makeClient())
+      const product = await productService.create(makeProduct())
       const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
@@ -135,9 +139,9 @@ describe('Favorite Controller', () => {
 
   describe('POST /api/favorites', () => {
     test('Should return 200 on /api/favorites with correct payload', async () => {
-      const client = await clientRepository.save(makeClient())
+      const client = await clientService.create(makeClient())
 
-      const product = await productRepository.save(makeProduct({
+      const product = await productService.create(makeProduct({
         integrationId: mockMagaluShowResponse.id,
         title: mockMagaluShowResponse.title,
         price: mockMagaluShowResponse.price,
@@ -161,9 +165,9 @@ describe('Favorite Controller', () => {
     })
 
     test('Should return 400 on /api/favorites with already existing favorite', async () => {
-      const client = await clientRepository.save(makeClient())
+      const client = await clientService.create(makeClient())
 
-      const product = await productRepository.save(makeProduct({
+      const product = await productService.create(makeProduct({
         integrationId: mockMagaluShowResponse.id,
         title: mockMagaluShowResponse.title,
         price: mockMagaluShowResponse.price,
@@ -196,7 +200,7 @@ describe('Favorite Controller', () => {
     })
 
     test('Should return 404 on /api/favorites with inexistent product', async () => {
-      const client = await clientRepository.save(makeClient())
+      const client = await clientService.create(makeClient())
       const mockRequest = makePostRequest(client.id, mockMagaluShowResponse.id)
 
       nock('http://challenge-api.luizalabs.com')
@@ -213,8 +217,8 @@ describe('Favorite Controller', () => {
 
   describe('DELETE /api/favorites/:favorite_id', () => {
     test('Should return 200 on /api/favorites/:favorite_id', async () => {
-      const client = await clientRepository.save(makeClient())
-      const product = await productRepository.save(makeProduct())
+      const client = await clientService.create(makeClient())
+      const product = await productService.create(makeProduct())
       const favorite = await favoriteRepository.save(makeFavorite(client.id, product.id))
 
       await request(app)
