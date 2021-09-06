@@ -24,8 +24,8 @@ module.exports = {
     `${rootPath}/subscriber/**/*{.ts,.js}`
   ],
   cli: {
-    entitiesDir: `${rootPath}/app/entities`,
-    migrationsDir: `${rootPath}/database/migrations`,
-    subscribersDir: `${rootPath}/subscriber`
+    entitiesDir: 'src/app/entities',
+    migrationsDir: 'src/database/migrations',
+    subscribersDir: 'src/subscriber'
   }
 }
