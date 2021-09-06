@@ -7,6 +7,11 @@ module.exports = {
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'wishlist',
+  extra: {
+    ssl: process.env.NODE_ENV === 'dev'
+      ? false
+      : { rejectUnauthorized: false }
+  },
   synchronize: false,
   logging: false,
   entities: [
