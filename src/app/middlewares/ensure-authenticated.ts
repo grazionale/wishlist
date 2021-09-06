@@ -7,7 +7,7 @@ export const ensureAuthenticated = (req: Request, res: Response, next: NextFunct
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    throw new AppError('JTW token is missing', 403)
+    throw new AppError('JTW token is missing', 401)
   }
 
   const [, token] = authHeader.split(' ')
@@ -16,6 +16,6 @@ export const ensureAuthenticated = (req: Request, res: Response, next: NextFunct
 
     return next()
   } catch {
-    throw new AppError('Invalid JTW token', 403)
+    throw new AppError('Invalid JTW token', 401)
   }
 }
