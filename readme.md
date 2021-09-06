@@ -6,10 +6,10 @@ Esta API possuí **autenticação e autorização**, mas para fins didáticos, o
 https://documenter.getpostman.com/view/6210463/U16gP79F#959c6092-1a16-43cb-a48c-b6ca18a54549
 
 ### URL de produção
-https://product-wishlist.herokuapp.com
+https://product-wishlist.herokuapp.com/api
 
 ### RabbitMq de produção
-Foi utilizado o Amazon Mq com RabbitMq para ser o message broker desta aplicação. Para fims didáticos, no painel, é possível enviar uma mensagem de atualização de produto para que a aplicação faça o consumo da mesma.
+Foi utilizado o Amazon Mq com RabbitMq para ser o message broker desta aplicação. Para fins didáticos, no painel, é possível enviar uma mensagem de atualização de produto para que a aplicação faça o consumo da mesma.
 
 1. Acesse
 https://b-6d416a88-5ec9-48a2-9be2-2a401500f74b.mq.us-east-2.amazonaws.com
