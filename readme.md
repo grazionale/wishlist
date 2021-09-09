@@ -40,8 +40,13 @@ https://b-6d416a88-5ec9-48a2-9be2-2a401500f74b.mq.us-east-2.amazonaws.com
 - Docker Compose
 - Porta 3333 disponível
 ### Executando o projeto
+1. Instale as depêndecias
 ```
-  yarn up
+yarn install
+```
+2. Execute os containers
+```
+yarn up
 ```
 *Obs: O comando **yarn up** irá fazer o build do projeto, rodar as migrations e por fim levantar todos os containers utilizando o docker-compose.*
 
