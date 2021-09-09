@@ -8,9 +8,9 @@ module.exports = {
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'wishlist',
   extra: {
-    ssl: process.env.NODE_ENV === 'dev'
-      ? false
-      : { rejectUnauthorized: false }
+    ssl: process.env.DB_EXTRA_SSL_CONFIG === 'true'
+      ? { rejectUnauthorized: false }
+      : false
   },
   synchronize: false,
   logging: false,

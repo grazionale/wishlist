@@ -3,7 +3,7 @@ version: "3"
 services:
   rabbitmq:
     image: "rabbitmq:3.8-management-alpine"
-    container_name: rabbitmq
+    container_name: wishlist-rabbitmq
     hostname: rabbitmq
     ports:
       - "15672:15672"
@@ -11,3 +11,49 @@ services:
     volumes:
       - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
       - ./rabbitmq_config/definitions.json:/etc/rabbitmq/definitions.json:ro
+
+  wishlist-database:
+    image: postgres:13
+    restart: always
+    ports:
+      - 5532:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=wishlist-database
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+      - ./db_config/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    container_name: wishlist-api
+    image: node:12
+    working_dir: /usr/src/api
+    restart: always
+    volumes:
+      - ./dist:/usr/src/api/dist/
+      - ./ormconfig.ts:/usr/src/api/ormconfig.ts
+      - ./package.json:/usr/src/api/package.json
+    command: bash -c "npm install && npm run typeorm migration:run && npm start"
+    ports:
+      - "3333:3333"
+    environment: 
+      - PORT=3333
+      - DB_HOST=wishlist-database
+      - DB_PORT=5432
+      - DB_NAME=wishlist
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_EXTRA_SSL_CONFIG=false
+      - JWT_SECRET=#sadf@423
+      - JWT_EXPIRES_IN=1d
+      - AMQP_RABBITMQ=amqp://admin:1@rabbitmq
+    links: 
+      - wishlist-database
+      - rabbitmq
+    depends_on:
+      - wishlist-database
+      - rabbitmq
+
+volumes:
+  postgresql_data:
