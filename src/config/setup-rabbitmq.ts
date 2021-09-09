@@ -1,8 +1,9 @@
-import { Connection, Channel, connect, Message, Replies } from 'amqplib'
-
+import { Message } from 'amqplib'
+import { ChannelWrapper, connect } from 'amqp-connection-manager'
+import { IAmqpConnectionManager } from 'amqp-connection-manager/dist/esm/AmqpConnectionManager'
 export default class RabbitmqServer {
-  private conn: Connection
-  private channel: Channel
+  private conn: IAmqpConnectionManager
+  private channel: ChannelWrapper
 
   constructor (private readonly uri: string) {}
 
@@ -12,7 +13,7 @@ export default class RabbitmqServer {
   }
 
   async publishInQueue (queue: string, message: string): Promise<boolean> {
-    return this.channel.sendToQueue(queue, Buffer.from(message))
+    return await this.channel.sendToQueue(queue, Buffer.from(message))
   }
 
   async publishInExchange (
@@ -20,10 +21,10 @@ export default class RabbitmqServer {
     routingKey: string,
     message: string
   ): Promise<boolean> {
-    return this.channel.publish(exchange, routingKey, Buffer.from(message))
+    return await this.channel.publish(exchange, routingKey, Buffer.from(message))
   }
 
-  async consume (queue: string, callback: (message: Message) => void): Promise<Replies.Consume> {
+  async consume (queue: string, callback: (message: Message) => void): Promise<void> {
     return await this.channel.consume(queue, (message: Message | null) => {
       message && callback(message)
       message && this.channel.ack(message)
