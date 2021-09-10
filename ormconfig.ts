@@ -15,18 +15,17 @@ module.exports = {
   synchronize: false,
   logging: false,
   entities: [
-    `${rootPath}/app/entities/**/*{.ts,.js}`,
     `${rootPath}/domain/entities/**/*{.ts,.js}`
   ],
   migrations: [
-    `${rootPath}/database/migrations/**/*{.ts,.js}`
+    `${rootPath}/infra/database/migrations/**/*{.ts,.js}`
   ],
   subscribers: [
     `${rootPath}/subscriber/**/*{.ts,.js}`
   ],
   cli: {
-    entitiesDir: 'src/app/entities',
-    migrationsDir: 'src/database/migrations',
+    entitiesDir: 'src/domain/entities',
+    migrationsDir: 'src/infra/database/migrations',
     subscribersDir: 'src/subscriber'
   }
 }
