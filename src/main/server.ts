@@ -2,7 +2,7 @@ import 'reflect-metadata'
 import env from './config/env'
 import SetupDatabase from './config/setup-database'
 import RabbitmqServer from './config/setup-rabbitmq'
-import setupProductExternalQueue from '../app/queues/product-external-queue'
+import setupProductExternalQueue from '../data/queues/product-external-queue'
 
 const setupDatabase = new SetupDatabase()
 const rabbitMqServer = new RabbitmqServer(env.amqp_rabbitmq)
