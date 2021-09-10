@@ -1,10 +1,9 @@
 import { hash } from 'bcryptjs'
-import AppError from '../errors/app-error'
-import IUserCreateResponseDTO from '../dtos/services/user/user-service-create-response-dto'
+import AppError from '../../app/errors/app-error'
+import { IUserService } from '../../domain/services/user-service'
 import { IUserRepository } from '../../infra/repositories/user-repository'
-import IUserCreateRequestDTO from '../dtos/services/user/user-service-create-request-dto'
 
-class UserService {
+class UserService implements IUserService {
   private readonly userRepository: IUserRepository
 
   constructor (
@@ -13,7 +12,7 @@ class UserService {
     this.userRepository = userRepository
   }
 
-  public async create (user: IUserCreateRequestDTO): Promise<IUserCreateResponseDTO> {
+  public async create (user: IUserService.CreateParams): Promise<IUserService.CreateResult> {
     const findUser = await this.userRepository.findByUsername(user.username)
 
     if (findUser) {

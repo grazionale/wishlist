@@ -1,4 +1,4 @@
-import UserService from '../../services/user-service'
+import UserService from '../../../data/services/user-service'
 import UserRepository from '../../../infra/typeorm/user-repository'
 
 export const makeUserService = (): UserService => {

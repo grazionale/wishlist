@@ -7,16 +7,16 @@ import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 import { Client } from '../../src/app/entities/client'
-import UserService from '../../src/app/services/user-service'
+import UserService from '../../src/data/services/user-service'
 import UserRepository from '../../src/infra/typeorm/user-repository'
 import AuthService from '../../src/data/services/auth-service'
-import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 import { Product } from '../../src/app/entities/product'
 import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
 import ClientService from '../../src/app/services/client-service'
 import { makeClientService } from '../../src/app/factories/services/client-service-factory'
 import ProductService from '../../src/app/services/product-service'
 import { makeProductService } from '../../src/app/factories/services/product-service-factory'
+import { IAuthService } from '../../src/domain/services/auth-service'
 
 const makeFavorite = (clientId?: number, productId?: number): Favorite => {
   const favorite = new Favorite()
@@ -71,7 +71,7 @@ describe('Favorite Controller', () => {
   let userService: UserService
   let userRepsitory: UserRepository
   let authService: AuthService
-  let authResponse: IAuthServiceAuthResponseDTO
+  let authResponse: IAuthService.Result
 
   beforeEach(async () => {
     setupDatabase = new SetupDatabase(config)

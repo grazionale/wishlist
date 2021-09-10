@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { makeUserService } from '../factories/services/user-service-factory'
+import { makeUserService } from '../../main/factories/services/user-service-factory'
 
 export default class UserController {
   public async post (request: Request, response: Response): Promise<Response> {

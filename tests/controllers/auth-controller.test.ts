@@ -3,11 +3,11 @@ import { getConnection, getRepository } from 'typeorm'
 import UserRepository from '../../src/infra/typeorm/user-repository'
 import { User } from '../../src/domain/entities/user'
 import { IUserRepository } from '../../src/infra/repositories/user-repository'
-import UserService from '../../src/app/services/user-service'
+import UserService from '../../src/data/services/user-service'
 import app from '../../src/main/config/app'
 import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
-import IUserCreateRequestDTO from '../../src/app/dtos/services/user/user-service-create-request-dto'
+import { IUserService } from '../../src/domain/services/user-service'
 
 const makePostRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {
@@ -16,7 +16,7 @@ const makePostRequest = (username?: string, password?: string): IUserRepository.
   }
 }
 
-const makeUser = (username?: string, password?: string): IUserCreateRequestDTO => {
+const makeUser = (username?: string, password?: string): IUserService.CreateParams => {
   const user = new User()
   user.username = username || 'magalu'
   user.password = password || '123456'
