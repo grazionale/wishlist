@@ -1,7 +1,7 @@
-import AppError from '../../src/presentation/errors/app-error'
-import ProductService from '../../src/data/services/product-service'
-import { IProductService } from '../../src/domain/services/product-service'
-import FakeProductRepository from '../mocks/repositories/fake-product-repository'
+import AppError from '../../../src/presentation/errors/app-error'
+import ProductService from '../../../src/data/services/product-service'
+import { IProductService } from '../../../src/domain/services/product-service'
+import FakeProductRepository from '../../infra/mocks/typeorm/repositories/fake-product-repository'
 
 const makeProductCreateRequest = (ingreationId?: string, title?: string, price?: number, image?: string): IProductService.CreateParams => {
   return {

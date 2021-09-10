@@ -1,5 +1,5 @@
-import { User } from '../../../src/domain/entities/user'
-import { IUserRepository } from '../../../src/infra/repositories/user-repository'
+import { User } from '../../../../../src/domain/entities/user'
+import { IUserRepository } from '../../../../../src/infra/repositories/user-repository'
 
 class FakeUserRepository implements IUserRepository {
   private readonly users: User[] = []

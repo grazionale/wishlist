@@ -1,7 +1,7 @@
-import AppError from '../../src/presentation/errors/app-error'
-import UserService from '../../src/data/services/user-service'
-import { IUserRepository } from '../../src/infra/repositories/user-repository'
-import FakeUserRepository from '../mocks/repositories/fake-user-repository'
+import AppError from '../../../src/presentation/errors/app-error'
+import UserService from '../../../src/data/services/user-service'
+import { IUserRepository } from '../../../src/infra/repositories/user-repository'
+import FakeUserRepository from '../../infra/mocks/typeorm/repositories/fake-user-repository'
 
 const makeUserCreateRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {

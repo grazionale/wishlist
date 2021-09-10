@@ -1,5 +1,5 @@
-import { Client } from '../../../src/domain/entities/client'
-import { IClientRepository } from '../../../src/infra/repositories/client-repository'
+import { Client } from '../../../../../src/domain/entities/client'
+import { IClientRepository } from '../../../../../src/infra/repositories/client-repository'
 
 class FakeClientRepository implements IClientRepository {
   private clients: Client[] = []

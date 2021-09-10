@@ -1,12 +1,12 @@
-import FakeFavoriteRepository from '../mocks/repositories/fake-favorite-repository'
-import AppError from '../../src/presentation/errors/app-error'
-import FakeClientRepository from '../mocks/repositories/fake-client-repository'
-import FakeProductRepository from '../mocks/repositories/fake-product-repository'
-import { Client } from '../../src/domain/entities/client'
-import ClientService from '../../src/data/services/client-service'
-import MagaluProductService from '../../src/data/services/magalu-product-service'
-import { IFavoriteService } from '../../src/domain/services/favorite-service'
-import FavoriteService from '../../src/data/services/favorite-service'
+import FakeFavoriteRepository from '../../infra/mocks/typeorm/repositories/fake-favorite-repository'
+import AppError from '../../../src/presentation/errors/app-error'
+import FakeClientRepository from '../../infra/mocks/typeorm/repositories/fake-client-repository'
+import FakeProductRepository from '../../infra/mocks/typeorm/repositories/fake-product-repository'
+import { Client } from '../../../src/domain/entities/client'
+import ClientService from '../../../src/data/services/client-service'
+import MagaluProductService from '../../../src/data/services/magalu-product-service'
+import { IFavoriteService } from '../../../src/domain/services/favorite-service'
+import FavoriteService from '../../../src/data/services/favorite-service'
 
 const makeFavorite = (clientId?: number, externalProductId?: string): IFavoriteService.CreateParams => {
   return {

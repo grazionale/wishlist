@@ -1,7 +1,7 @@
-import FakeClientRepository from '../mocks/repositories/fake-client-repository'
-import AppError from '../../src/presentation/errors/app-error'
-import { Client } from '../../src/domain/entities/client'
-import ClientService from '../../src/data/services/client-service'
+import AppError from '../../../src/presentation/errors/app-error'
+import { Client } from '../../../src/domain/entities/client'
+import ClientService from '../../../src/data/services/client-service'
+import FakeClientRepository from '../../infra/mocks/typeorm/repositories/fake-client-repository'
 
 const makeClient = (nome?: string, email?: string): Client => {
   const client = new Client()

@@ -1,5 +1,5 @@
-import { Favorite } from '../../../src/domain/entities/favorite'
-import { IFavoriteRepository } from '../../../src/infra/repositories/favorite-repository'
+import { Favorite } from '../../../../../src/domain/entities/favorite'
+import { IFavoriteRepository } from '../../../../../src/infra/repositories/favorite-repository'
 
 class FakeFavoriteRepository implements IFavoriteRepository {
   private favorites: Favorite[] = []

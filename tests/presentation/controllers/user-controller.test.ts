@@ -1,9 +1,9 @@
 import request from 'supertest'
 import { getConnection } from 'typeorm'
-import { IUserRepository } from '../../src/infra/repositories/user-repository'
-import app from '../../src/main/config/app'
-import SetupDatabase from '../../src/main/config/setup-database'
-import config from '../mocks/database/mock-databaseconfig'
+import { IUserRepository } from '../../../src/infra/repositories/user-repository'
+import app from '../../../src/main/config/app'
+import SetupDatabase from '../../../src/main/config/setup-database'
+import config from '../../infra/mocks/database/mock-databaseconfig'
 
 const makePostRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {

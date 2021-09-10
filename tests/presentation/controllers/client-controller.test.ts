@@ -1,14 +1,14 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
-import app from '../../src/main/config/app'
-import SetupDatabase from '../../src/main/config/setup-database'
-import config from '../mocks/database/mock-databaseconfig'
-import UserService from '../../src/data/services/user-service'
-import UserRepository from '../../src/infra/typeorm/user-repository'
-import AuthService from '../../src/data/services/auth-service'
-import { IAuthService } from '../../src/domain/services/auth-service'
-import { Client } from '../../src/domain/entities/client'
-import { IClientService } from '../../src/domain/services/client-service'
+import app from '../../../src/main/config/app'
+import SetupDatabase from '../../../src/main/config/setup-database'
+import config from '../../infra/mocks/database/mock-databaseconfig'
+import UserService from '../../../src/data/services/user-service'
+import UserRepository from '../../../src/infra/typeorm/user-repository'
+import AuthService from '../../../src/data/services/auth-service'
+import { IAuthService } from '../../../src/domain/services/auth-service'
+import { Client } from '../../../src/domain/entities/client'
+import { IClientService } from '../../../src/domain/services/client-service'
 
 const makeClient = (email?: string): Client => {
   const client = new Client()

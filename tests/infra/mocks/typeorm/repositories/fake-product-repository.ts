@@ -1,5 +1,5 @@
-import { Product } from '../../../src/domain/entities/product'
-import { IProductRepository } from '../../../src/infra/repositories/product-repository'
+import { Product } from '../../../../../src/domain/entities/product'
+import { IProductRepository } from '../../../../../src/infra/repositories/product-repository'
 
 class FakeProductRepository implements IProductRepository {
   private readonly products: Product[] = []

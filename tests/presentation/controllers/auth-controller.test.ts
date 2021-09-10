@@ -1,13 +1,13 @@
 import request from 'supertest'
 import { getConnection, getRepository } from 'typeorm'
-import UserRepository from '../../src/infra/typeorm/user-repository'
-import { User } from '../../src/domain/entities/user'
-import { IUserRepository } from '../../src/infra/repositories/user-repository'
-import UserService from '../../src/data/services/user-service'
-import app from '../../src/main/config/app'
-import SetupDatabase from '../../src/main/config/setup-database'
-import config from '../mocks/database/mock-databaseconfig'
-import { IUserService } from '../../src/domain/services/user-service'
+import UserRepository from '../../../src/infra/typeorm/user-repository'
+import { User } from '../../../src/domain/entities/user'
+import { IUserRepository } from '../../../src/infra/repositories/user-repository'
+import UserService from '../../../src/data/services/user-service'
+import app from '../../../src/main/config/app'
+import SetupDatabase from '../../../src/main/config/setup-database'
+import config from '../../infra/mocks/database/mock-databaseconfig'
+import { IUserService } from '../../../src/domain/services/user-service'
 
 const makePostRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {
