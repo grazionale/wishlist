@@ -1,25 +1,21 @@
-import AppError from '../errors/app-error'
-import IClientPostResponseDTO from '../dtos/services/client/client-service-post-response-dto'
-import { IClientRepository } from '../interfaces/repositories/client/client-repository'
-import IClientIndexResponseDTO from '../dtos/services/client/client-service-index-response-dto'
-import IClientPostRequestDTO from '../dtos/services/client/client-service-post-request-dto'
-import IClientShowResponseDTO from '../dtos/services/client/client-service-show-response-dto'
-import IClientPutRequestDTO from '../dtos/services/client/client-service-put-request-dto'
-import IClientPutResponseDTO from '../dtos/services/client/client-service-put-response-dto'
-class ClientService {
+import AppError from '../../app/errors/app-error'
+import { IClientRepository } from '../../infra/repositories/client-repository'
+import { IClientService } from '../../domain/services/client-service'
+
+class ClientService implements IClientService {
   private readonly clientRepository: IClientRepository
 
   constructor (clientRepository: IClientRepository) {
     this.clientRepository = clientRepository
   }
 
-  public async index (): Promise<IClientIndexResponseDTO[]> {
+  public async index (): Promise<IClientService.IndexResult[]> {
     const listOfClients = this.clientRepository.index()
 
     return await listOfClients
   }
 
-  public async show (clientId: string): Promise<IClientShowResponseDTO> {
+  public async show (clientId: string): Promise<IClientService.ShowResult> {
     const client = await this.clientRepository.show(clientId)
 
     if (!client) {
@@ -29,7 +25,7 @@ class ClientService {
     return client
   }
 
-  public async create (client: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
+  public async create (client: IClientService.CreateParams): Promise<IClientService.CreateResult> {
     const alreadyExists = await this.clientRepository.findByEmail(client.email)
 
     if (alreadyExists) {
@@ -40,7 +36,7 @@ class ClientService {
     return clientSaved
   }
 
-  public async update (client: IClientPutRequestDTO): Promise<IClientPutResponseDTO> {
+  public async update (client: IClientService.UpdateParams): Promise<IClientService.UpdateResult> {
     const findClient = await this.clientRepository.show(client.id.toString())
 
     if (!findClient) {

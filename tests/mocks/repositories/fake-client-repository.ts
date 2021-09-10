@@ -1,36 +1,30 @@
-import { Client } from '../../../src/app/entities/client'
-import IClientIndexResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-index-response-dto'
-import IClientPostRequestDTO from '../../../src/app/dtos/repositories/client/client-repository-post-request-dto'
-import IClientPostResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-post-response-dto'
-import IClientShowResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-show-response-dto'
-import { IClientRepository } from '../../../src/app/interfaces/repositories/client/client-repository'
-import IClientPutRequestDTO from '../../../src/app/dtos/repositories/client/client-repository-put-request-dto'
-import IClientPutResponseDTO from '../../../src/app/dtos/repositories/client/client-repository-put-response-dto'
+import { Client } from '../../../src/domain/entities/client'
+import { IClientRepository } from '../../../src/infra/repositories/client-repository'
 
 class FakeClientRepository implements IClientRepository {
   private clients: Client[] = []
 
-  public async index (): Promise<IClientIndexResponseDTO[]> {
+  public async index (): Promise<IClientRepository.IndexResult[]> {
     return this.clients
   }
 
-  public async show (clientId: string): Promise<IClientShowResponseDTO | undefined> {
+  public async show (clientId: string): Promise<IClientRepository.ShowResult | undefined> {
     return this.clients.find(client => client.id.toString() === clientId)
   }
 
-  public async create (clientData: IClientPostRequestDTO): Promise<IClientPostResponseDTO> {
+  public async create (clientData: IClientRepository.CreateParams): Promise<IClientRepository.CreateResult> {
     const client = new Client()
     Object.assign(client, { id: 1, ...clientData })
     this.clients.push(client)
     return client
   }
 
-  public async findByEmail (clientEmail: string): Promise<IClientShowResponseDTO | undefined> {
+  public async findByEmail (clientEmail: string): Promise<IClientRepository.FindByEmailResult | undefined> {
     const findClient = this.clients.find(client => client.email === clientEmail)
     return findClient
   }
 
-  public async update (clientData: IClientPutRequestDTO): Promise<IClientPutResponseDTO> {
+  public async update (clientData: IClientRepository.UpdateParams): Promise<IClientRepository.UpdateResult> {
     const findClient = this.clients.find(client => client.id === clientData.id)
     if (findClient) {
       Object.assign(findClient, { ...clientData })

@@ -3,10 +3,10 @@ import FavoriteService from '../../src/app/services/favorite-service'
 import AppError from '../../src/app/errors/app-error'
 import FakeClientRepository from '../mocks/repositories/fake-client-repository'
 import MagaluProductService from '../../src/app/services/magalu-product-service'
-import ClientService from '../../src/app/services/client-service'
-import { Client } from '../../src/app/entities/client'
 import FakeProductRepository from '../mocks/repositories/fake-product-repository'
 import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
+import { Client } from '../../src/domain/entities/client'
+import ClientService from '../../src/data/services/client-service'
 
 const makeFavorite = (clientId?: number, externalProductId?: string): IFavoritePostRequestDTO => {
   return {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { makeClientService } from '../factories/services/client-service-factory'
+import { makeClientService } from '../../main/factories/services/client-service-factory'
 
 export default class ClientsController {
   public async index (request: Request, response: Response): Promise<Response> {

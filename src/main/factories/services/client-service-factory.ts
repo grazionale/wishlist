@@ -1,5 +1,5 @@
-import ClientService from '../../services/client-service'
-import ClientRepository from '../../repositories/client-repository'
+import ClientService from '../../../data/services/client-service'
+import ClientRepository from '../../../infra/typeorm/client-repository'
 
 export const makeClientService = (): ClientService => {
   const clientRepository = new ClientRepository()

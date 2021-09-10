@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import ClientsController from '../../app/controllers/client-controller'
 import { ensureAuthenticated } from '../../app/middlewares'
+import ClientsController from '../../presentation/controllers/client-controller'
 
 const clientsController = new ClientsController()
 

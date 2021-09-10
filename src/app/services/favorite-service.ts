@@ -4,9 +4,9 @@ import { IFavoriteRepository } from '../interfaces/repositories/favorite/favorit
 import IFavoriteIndexResponseDTO from '../dtos/services/favorite/favorite-service-index-response-dto'
 import IFavoritePostRequestDTO from '../dtos/services/favorite/favorite-service-post-request-dto'
 import IFavoriteShowResponseDTO from '../dtos/services/favorite/favorite-service-show-response-dto'
-import { IClientRepository } from '../interfaces/repositories/client/client-repository'
 import MagaluProductService from './magalu-product-service'
 import { IProductRepository } from '../../infra/repositories/product-repository'
+import { IClientRepository } from '../../infra/repositories/client-repository'
 
 class FavoriteService {
   private readonly favoriteRepository: IFavoriteRepository
