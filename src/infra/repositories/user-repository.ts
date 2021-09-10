@@ -1,9 +1,9 @@
 import { getRepository, Repository } from 'typeorm'
-import IUserCreateRequestDTO from '../dtos/repositories/user/user-repository-create-request-dto'
-import IUserCreateResponseDTO from '../dtos/repositories/user/user-repository-create-response-dto'
-import IUserFindByUsernameResponseDTO from '../dtos/repositories/user/user-repository-find-by-username-response-dto'
-import { User } from '../entities/user'
-import { IUserRepository } from '../interfaces/repositories/user/user-repository'
+import IUserCreateRequestDTO from '../../app/dtos/repositories/user/user-repository-create-request-dto'
+import IUserCreateResponseDTO from '../../app/dtos/repositories/user/user-repository-create-response-dto'
+import IUserFindByUsernameResponseDTO from '../../app/dtos/repositories/user/user-repository-find-by-username-response-dto'
+import { User } from '../../domain/entities/user'
+import { IUserRepository } from '../../app/interfaces/repositories/user/user-repository'
 
 class UserRepository implements IUserRepository {
   private readonly ormRepository: Repository<User>

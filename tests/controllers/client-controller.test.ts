@@ -1,14 +1,14 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
 import { Client } from '../../src/app/entities/client'
-import app from '../../src/config/app'
-import SetupDatabase from '../../src/config/setup-database'
+import app from '../../src/main/config/app'
+import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IClientPostRequestDTO from '../../src/app/dtos/services/client/client-service-post-request-dto'
 import IClientPutRequestDTO from '../../src/app/dtos/repositories/client/client-repository-put-request-dto'
 import UserService from '../../src/app/services/user-service'
-import UserRepository from '../../src/app/repositories/user-repository'
-import AuthService from '../../src/app/services/auth-service'
+import UserRepository from '../../src/infra/repositories/user-repository'
+import AuthService from '../../src/data/services/auth-service'
 import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 
 const makeClient = (email?: string): Client => {
@@ -62,7 +62,7 @@ describe('Client Controller', () => {
     )
 
     await userService.create(mockUser)
-    authResponse = await authService.auth(mockUser.username, mockUser.password)
+    authResponse = await authService.auth({ username: mockUser.username, password: mockUser.password })
   })
 
   afterEach(async () => {

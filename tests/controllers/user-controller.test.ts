@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { getConnection } from 'typeorm'
 import IUserCreateRequestDTO from '../../src/app/dtos/repositories/user/user-repository-create-request-dto'
-import app from '../../src/config/app'
-import SetupDatabase from '../../src/config/setup-database'
+import app from '../../src/main/config/app'
+import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 
 const makePostRequest = (username?: string, password?: string): IUserCreateRequestDTO => {

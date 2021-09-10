@@ -5,6 +5,7 @@ const config: ConnectionOptions = {
   database: ':memory:',
   dropSchema: true,
   entities: [
+    'src/domain/entities/**/*{.ts,.js}',
     'src/app/entities/**/*.ts'
   ],
   synchronize: true,

@@ -1,5 +1,5 @@
 import { Express, NextFunction, Request, Response } from 'express'
-import AppError from '../app/errors/app-error'
+import AppError from '../../app/errors/app-error'
 
 export default (app: Express): void => {
   app.use((err: Error, _request: Request, response: Response, _: NextFunction) => {

@@ -1,6 +1,6 @@
 import IUserCreateRequestDTO from '../../src/app/dtos/repositories/user/user-repository-create-request-dto'
 import AppError from '../../src/app/errors/app-error'
-import AuthService from '../../src/app/services/auth-service'
+import AuthService from '../../src/data/services/auth-service'
 import UserService from '../../src/app/services/user-service'
 import FakeUserRepository from '../mocks/repositories/fake-user-repository'
 
@@ -26,7 +26,7 @@ describe('AuthService', () => {
     const request = makeUserCreateRequest()
     await userService.create(request)
 
-    const result = await authService.auth(request.username, request.password)
+    const result = await authService.auth({ username: request.username, password: request.password })
 
     expect(result).toHaveProperty('accessToken')
     expect(result.user).toBe(request.username)
@@ -37,13 +37,13 @@ describe('AuthService', () => {
     await userService.create(request)
 
     await expect(authService.auth(
-      request.username, '654321'
+      { username: request.username, password: '654321' }
     ))
       .rejects.toEqual(new AppError('incorrect email/password combination', 401))
   })
 
   it('should not be able to authenticate with non existing user', async () => {
-    await expect(authService.auth('magalu', '123456'))
+    await expect(authService.auth({ username: 'magalu', password: '123456' }))
       .rejects.toEqual(new AppError('incorrect email/password combination', 401))
   })
 })

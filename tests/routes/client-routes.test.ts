@@ -2,8 +2,8 @@ import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
 import jwt from 'jsonwebtoken'
 import { Client } from '../../src/app/entities/client'
-import app from '../../src/config/app'
-import SetupDatabase from '../../src/config/setup-database'
+import app from '../../src/main/config/app'
+import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 
 const makeClient = (email?: string): Client => {

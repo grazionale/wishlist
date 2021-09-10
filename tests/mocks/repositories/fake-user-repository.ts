@@ -1,4 +1,4 @@
-import { User } from '../../../src/app/entities/user'
+import { User } from '../../../src/domain/entities/user'
 import IUserCreateRequestDTO from '../../../src/app/dtos/repositories/user/user-repository-create-request-dto'
 import IUserCreateResponseDTO from '../../../src/app/dtos/repositories/user/user-repository-create-response-dto'
 import IUserFindByUsernameResponseDTO from '../../../src/app/dtos/repositories/user/user-repository-find-by-username-response-dto'

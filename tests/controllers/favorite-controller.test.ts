@@ -2,14 +2,14 @@ import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
 import nock from 'nock'
 import { Favorite } from '../../src/app/entities/favorite'
-import app from '../../src/config/app'
-import SetupDatabase from '../../src/config/setup-database'
+import app from '../../src/main/config/app'
+import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 import { Client } from '../../src/app/entities/client'
 import UserService from '../../src/app/services/user-service'
-import UserRepository from '../../src/app/repositories/user-repository'
-import AuthService from '../../src/app/services/auth-service'
+import UserRepository from '../../src/infra/repositories/user-repository'
+import AuthService from '../../src/data/services/auth-service'
 import IAuthServiceAuthResponseDTO from '../../src/app/dtos/services/auth-service/auth-service-auth-response-dto'
 import { Product } from '../../src/app/entities/product'
 import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
@@ -86,7 +86,7 @@ describe('Favorite Controller', () => {
     productService = makeProductService()
 
     await userService.create(mockUser)
-    authResponse = await authService.auth(mockUser.username, mockUser.password)
+    authResponse = await authService.auth({ username: mockUser.username, password: mockUser.password })
   })
 
   afterEach(async () => {

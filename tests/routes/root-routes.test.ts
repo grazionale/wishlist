@@ -1,5 +1,5 @@
 import request from 'supertest'
-import app from '../../src/config/app'
+import app from '../../src/main/config/app'
 
 describe('Root Routes', () => {
   describe('GET /api', () => {

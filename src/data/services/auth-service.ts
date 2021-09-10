@@ -1,22 +1,22 @@
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
-import env from '../../config/env'
-import IAuthServiceAuthResponseDTO from '../dtos/services/auth-service/auth-service-auth-response-dto'
-import AppError from '../errors/app-error'
-import { IUserRepository } from '../interfaces/repositories/user/user-repository'
+import env from '../../main/config/env'
+import AppError from '../../app/errors/app-error'
+import { IUserRepository } from '../../app/interfaces/repositories/user/user-repository'
+import { IAuthService } from '../../domain/services/auth-service'
 
-class AuthService {
+class AuthService implements IAuthService {
   private readonly userRepository: IUserRepository
 
   constructor (userRepository: IUserRepository) {
     this.userRepository = userRepository
   }
 
-  public async auth (username: string, password: string): Promise<IAuthServiceAuthResponseDTO> {
+  public async auth ({ username, password }: IAuthService.Params): Promise<IAuthService.Result> {
     const userFind = await this.userRepository.findByUsername(username)
 
     if (!userFind) {
-      throw new AppError('incorrect email/password combination', 401) // TODO: alterar mensagem p/ incorrect email/password combination
+      throw new AppError('incorrect email/password combination', 401)
     }
 
     const passwordMatched = await compare(

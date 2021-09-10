@@ -1,4 +1,4 @@
-import apiMagalu from '../../config/setup-api-magalu'
+import apiMagalu from '../../main/config/setup-api-magalu'
 import AppError from '../errors/app-error'
 
 class MagaluProductService {

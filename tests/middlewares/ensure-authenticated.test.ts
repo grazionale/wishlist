@@ -1,7 +1,7 @@
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
 import { ensureAuthenticated } from '../../src/app/middlewares'
-import app from '../../src/config/app'
+import app from '../../src/main/config/app'
 
 const mockRoute = (): void => {
   app.get('/test_ensure_authenticated', ensureAuthenticated, (req, res) => {

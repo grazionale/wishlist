@@ -1,5 +1,5 @@
-import UserRepository from '../../repositories/user-repository'
-import AuthService from '../../services/auth-service'
+import AuthService from '../../../data/services/auth-service'
+import UserRepository from '../../../infra/repositories/user-repository'
 
 export const makeAuthService = (): AuthService => {
   const userRepository = new UserRepository()
