@@ -1,10 +1,6 @@
 import { getRepository, Repository } from 'typeorm'
-import { Favorite } from '../entities/favorite'
-import IFavoriteIndexResponseDTO from '../dtos/repositories/favorite/favorite-repository-index-response-dto'
-import IFavoritePostRequestDTO from '../dtos/repositories/favorite/favorite-repository-post-request-dto'
-import IFavoritePostResponseDTO from '../dtos/repositories/favorite/favorite-repository-post-response-dto'
-import IFavoriteShowResponseDTO from '../dtos/repositories/favorite/favorite-repository-show-response-dto'
-import { IFavoriteRepository } from '../interfaces/repositories/favorite/favorite-repository'
+import { Favorite } from '../../domain/entities/favorite'
+import { IFavoriteRepository } from '../../infra/repositories/favorite-repository'
 
 class FavoriteRepository implements IFavoriteRepository {
   private readonly ormRepository: Repository<Favorite>
@@ -13,7 +9,7 @@ class FavoriteRepository implements IFavoriteRepository {
     this.ormRepository = getRepository(Favorite)
   }
 
-  public async index (clientId: number): Promise<IFavoriteIndexResponseDTO[]> {
+  public async index (clientId: number): Promise<IFavoriteRepository.IndexResult[]> {
     const listOfFavorites = await this.ormRepository.find({
       relations: ['client', 'product'],
       where: { clientId: clientId }
@@ -22,7 +18,7 @@ class FavoriteRepository implements IFavoriteRepository {
     return listOfFavorites
   }
 
-  public async show (favoriteId: string): Promise<IFavoriteShowResponseDTO | undefined> {
+  public async show (favoriteId: string): Promise<IFavoriteRepository.ShowResult | undefined> {
     const favorite = await this.ormRepository.findOne({
       relations: ['client', 'product'],
       where: { id: favoriteId }
@@ -40,7 +36,7 @@ class FavoriteRepository implements IFavoriteRepository {
     return !!favorite
   }
 
-  public async create (favorite: IFavoritePostRequestDTO): Promise<IFavoritePostResponseDTO> {
+  public async create (favorite: IFavoriteRepository.CreateParams): Promise<IFavoriteRepository.CreateResult> {
     const favoriteSaved = await this.ormRepository.save(favorite)
 
     return favoriteSaved

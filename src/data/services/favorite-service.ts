@@ -1,14 +1,11 @@
-import AppError from '../errors/app-error'
-import IFavoritePostResponseDTO from '../dtos/services/favorite/favorite-service-post-response-dto'
-import { IFavoriteRepository } from '../interfaces/repositories/favorite/favorite-repository'
-import IFavoriteIndexResponseDTO from '../dtos/services/favorite/favorite-service-index-response-dto'
-import IFavoritePostRequestDTO from '../dtos/services/favorite/favorite-service-post-request-dto'
-import IFavoriteShowResponseDTO from '../dtos/services/favorite/favorite-service-show-response-dto'
-import MagaluProductService from './magalu-product-service'
 import { IProductRepository } from '../../infra/repositories/product-repository'
 import { IClientRepository } from '../../infra/repositories/client-repository'
+import MagaluProductService from '../../data/services/magalu-product-service'
+import { IFavoriteRepository } from '../../infra/repositories/favorite-repository'
+import { IFavoriteService } from '../../domain/services/favorite-service'
+import AppError from '../../app/errors/app-error'
 
-class FavoriteService {
+class FavoriteService implements IFavoriteService {
   private readonly favoriteRepository: IFavoriteRepository
   private readonly clientRepository: IClientRepository
   private readonly productRepository: IProductRepository
@@ -26,13 +23,13 @@ class FavoriteService {
     this.magaluProductService = magaluProductService
   }
 
-  public async index (clientId: number): Promise<IFavoriteIndexResponseDTO[]> {
+  public async index (clientId: number): Promise<IFavoriteService.IndexResult[]> {
     const listOfFavorites = await this.favoriteRepository.index(clientId)
 
     return listOfFavorites
   }
 
-  public async show (favoriteId: string): Promise<IFavoriteShowResponseDTO> {
+  public async show (favoriteId: string): Promise<IFavoriteService.ShowResult> {
     const favorite = await this.favoriteRepository.show(favoriteId)
 
     if (!favorite) {
@@ -42,7 +39,7 @@ class FavoriteService {
     return favorite
   }
 
-  public async create (favorite: IFavoritePostRequestDTO): Promise<IFavoritePostResponseDTO> {
+  public async create (favorite: IFavoriteService.CreateParams): Promise<IFavoriteService.CreateResult> {
     const findClient = await this.clientRepository.show(favorite.clientId.toString())
 
     if (!findClient) {

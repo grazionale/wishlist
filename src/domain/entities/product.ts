@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Favorite } from '../../app/entities/favorite'
+import { Favorite } from './favorite'
 
 @Entity()
 export class Product {

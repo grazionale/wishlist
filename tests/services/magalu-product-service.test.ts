@@ -1,6 +1,6 @@
 import nock from 'nock'
 import AppError from '../../src/app/errors/app-error'
-import MagaluProductService from '../../src/app/services/magalu-product-service'
+import MagaluProductService from '../../src/data/services/magalu-product-service'
 import apiMagalu from '../../src/main/config/setup-api-magalu'
 
 const mockMagaluShowResponse =

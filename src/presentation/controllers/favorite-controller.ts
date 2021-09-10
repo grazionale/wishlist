@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import AppError from '../errors/app-error'
-import { makeFavoriteService } from '../factories/services/favorite-service-factory'
+import AppError from '../../app/errors/app-error'
+import { makeFavoriteService } from '../../main/factories/services/favorite-service-factory'
 
 export default class FavoriteController {
   public async index (request: Request, response: Response): Promise<Response> {

@@ -1,11 +1,9 @@
 import request from 'supertest'
 import { getConnection, getRepository, Repository } from 'typeorm'
 import nock from 'nock'
-import { Favorite } from '../../src/app/entities/favorite'
 import app from '../../src/main/config/app'
 import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
-import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 import UserService from '../../src/data/services/user-service'
 import UserRepository from '../../src/infra/typeorm/user-repository'
 import AuthService from '../../src/data/services/auth-service'
@@ -17,6 +15,8 @@ import { makeProductService } from '../../src/main/factories/services/product-se
 import { makeClientService } from '../../src/main/factories/services/client-service-factory'
 import { Client } from '../../src/domain/entities/client'
 import ClientService from '../../src/data/services/client-service'
+import { Favorite } from '../../src/domain/entities/favorite'
+import { IFavoriteService } from '../../src/domain/services/favorite-service'
 
 const makeFavorite = (clientId?: number, productId?: number): Favorite => {
   const favorite = new Favorite()
@@ -44,7 +44,7 @@ const makeProduct = (productRequest?: IProductService.CreateParams): Product => 
   return product
 }
 
-const makePostRequest = (clientId?: number, externalProductId?: string): IFavoritePostRequestDTO => {
+const makePostRequest = (clientId?: number, externalProductId?: string): IFavoriteService.CreateParams => {
   return {
     clientId: clientId || 1,
     externalProductId: externalProductId || '123-123-123'

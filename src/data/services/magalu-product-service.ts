@@ -1,7 +1,8 @@
+import AppError from '../../app/errors/app-error'
+import { IMagaluProductService } from '../../domain/services/magalu-product-service'
 import apiMagalu from '../../main/config/setup-api-magalu'
-import AppError from '../errors/app-error'
 
-class MagaluProductService {
+class MagaluProductService implements IMagaluProductService {
   public async show (externalProductId: string): Promise<any> {
     try {
       const result = await apiMagalu.get(`/api/product/${externalProductId}/`)

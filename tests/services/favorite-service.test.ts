@@ -1,14 +1,14 @@
 import FakeFavoriteRepository from '../mocks/repositories/fake-favorite-repository'
-import FavoriteService from '../../src/app/services/favorite-service'
 import AppError from '../../src/app/errors/app-error'
 import FakeClientRepository from '../mocks/repositories/fake-client-repository'
-import MagaluProductService from '../../src/app/services/magalu-product-service'
 import FakeProductRepository from '../mocks/repositories/fake-product-repository'
-import IFavoritePostRequestDTO from '../../src/app/dtos/services/favorite/favorite-service-post-request-dto'
 import { Client } from '../../src/domain/entities/client'
 import ClientService from '../../src/data/services/client-service'
+import MagaluProductService from '../../src/data/services/magalu-product-service'
+import { IFavoriteService } from '../../src/domain/services/favorite-service'
+import FavoriteService from '../../src/data/services/favorite-service'
 
-const makeFavorite = (clientId?: number, externalProductId?: string): IFavoritePostRequestDTO => {
+const makeFavorite = (clientId?: number, externalProductId?: string): IFavoriteService.CreateParams => {
   return {
     clientId: clientId || 1,
     externalProductId: externalProductId || '123-123-123-123-123'

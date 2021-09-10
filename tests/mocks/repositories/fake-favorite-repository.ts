@@ -1,22 +1,18 @@
-import { Favorite } from '../../../src/app/entities/favorite'
-import IFavoriteIndexResponseDTO from '../../../src/app/dtos/repositories/favorite/favorite-repository-index-response-dto'
-import IFavoritePostRequestDTO from '../../../src/app/dtos/repositories/favorite/favorite-repository-post-request-dto'
-import IFavoritePostResponseDTO from '../../../src/app/dtos/repositories/favorite/favorite-repository-post-response-dto'
-import IFavoriteShowResponseDTO from '../../../src/app/dtos/repositories/favorite/favorite-repository-show-response-dto'
-import { IFavoriteRepository } from '../../../src/app/interfaces/repositories/favorite/favorite-repository'
+import { Favorite } from '../../../src/domain/entities/favorite'
+import { IFavoriteRepository } from '../../../src/infra/repositories/favorite-repository'
 
 class FakeFavoriteRepository implements IFavoriteRepository {
   private favorites: Favorite[] = []
 
-  public async index (): Promise<IFavoriteIndexResponseDTO[]> {
+  public async index (): Promise<IFavoriteRepository.IndexResult[]> {
     return this.favorites
   }
 
-  public async show (favoriteId: string): Promise<IFavoriteShowResponseDTO | undefined> {
+  public async show (favoriteId: string): Promise<IFavoriteRepository.ShowResult | undefined> {
     return this.favorites.find(favorite => favorite.id.toString() === favoriteId)
   }
 
-  public async create (favoriteData: IFavoritePostRequestDTO): Promise<IFavoritePostResponseDTO> {
+  public async create (favoriteData: IFavoriteRepository.CreateParams): Promise<IFavoriteRepository.CreateResult> {
     const favorite = new Favorite()
     Object.assign(favorite, { id: 1, ...favoriteData })
     this.favorites.push(favorite)
