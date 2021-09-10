@@ -1,5 +1,5 @@
 import { Client } from '../../../entities/client'
-import { Product } from '../../../entities/product'
+import { Product } from '../../../../domain/entities/product'
 
 export default interface IFavoriteIndexResponseDTO {
   id: number

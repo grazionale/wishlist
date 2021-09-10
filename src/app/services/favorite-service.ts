@@ -6,7 +6,7 @@ import IFavoritePostRequestDTO from '../dtos/services/favorite/favorite-service-
 import IFavoriteShowResponseDTO from '../dtos/services/favorite/favorite-service-show-response-dto'
 import { IClientRepository } from '../interfaces/repositories/client/client-repository'
 import MagaluProductService from './magalu-product-service'
-import { IProductRepository } from '../interfaces/repositories/product/product-repository'
+import { IProductRepository } from '../../infra/repositories/product-repository'
 
 class FavoriteService {
   private readonly favoriteRepository: IFavoriteRepository

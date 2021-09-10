@@ -1,5 +1,5 @@
 import RabbitmqServer from '../../main/config/setup-rabbitmq'
-import { makeProductService } from '../factories/services/product-service-factory'
+import { makeProductService } from '../../main/factories/services/product-service-factory'
 
 export default (server: RabbitmqServer): void => {
   const productServide = makeProductService()

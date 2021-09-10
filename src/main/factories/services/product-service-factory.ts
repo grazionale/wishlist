@@ -1,5 +1,5 @@
-import ProductRepository from '../../repositories/product-repository'
-import ProductService from '../../services/product-service'
+import ProductService from '../../../data/services/product-service'
+import ProductRepository from '../../../infra/typeorm/product-repository'
 
 export const makeProductService = (): ProductService => {
   const productRepository = new ProductRepository()

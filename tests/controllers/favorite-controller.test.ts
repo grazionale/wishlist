@@ -10,13 +10,13 @@ import { Client } from '../../src/app/entities/client'
 import UserService from '../../src/data/services/user-service'
 import UserRepository from '../../src/infra/typeorm/user-repository'
 import AuthService from '../../src/data/services/auth-service'
-import { Product } from '../../src/app/entities/product'
-import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
+import { Product } from '../../src/domain/entities/product'
 import ClientService from '../../src/app/services/client-service'
 import { makeClientService } from '../../src/app/factories/services/client-service-factory'
-import ProductService from '../../src/app/services/product-service'
-import { makeProductService } from '../../src/app/factories/services/product-service-factory'
+import ProductService from '../../src/data/services/product-service'
 import { IAuthService } from '../../src/domain/services/auth-service'
+import { IProductService } from '../../src/domain/services/product-service'
+import { makeProductService } from '../../src/main/factories/services/product-service-factory'
 
 const makeFavorite = (clientId?: number, productId?: number): Favorite => {
   const favorite = new Favorite()
@@ -34,7 +34,7 @@ const makeClient = (email?: string): Client => {
   return client
 }
 
-const makeProduct = (productRequest?: IProductCreateRequestDTO): Product => {
+const makeProduct = (productRequest?: IProductService.CreateParams): Product => {
   const product = new Product()
   product.integrationId = productRequest?.integrationId || '123-123-123'
   product.title = productRequest?.title || 'Boneca Molenga'

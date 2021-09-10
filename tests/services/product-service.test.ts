@@ -1,9 +1,9 @@
-import IProductCreateRequestDTO from '../../src/app/dtos/repositories/product/product-repository-create-request-dto'
 import AppError from '../../src/app/errors/app-error'
-import ProductService from '../../src/app/services/product-service'
+import ProductService from '../../src/data/services/product-service'
+import { IProductService } from '../../src/domain/services/product-service'
 import FakeProductRepository from '../mocks/repositories/fake-product-repository'
 
-const makeProductCreateRequest = (ingreationId?: string, title?: string, price?: number, image?: string): IProductCreateRequestDTO => {
+const makeProductCreateRequest = (ingreationId?: string, title?: string, price?: number, image?: string): IProductService.CreateParams => {
   return {
     integrationId: ingreationId || '123-123-123-123',
     title: title || 'title',
