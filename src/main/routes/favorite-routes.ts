@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { ensureAuthenticated } from '../../app/middlewares'
+import { ensureAuthenticated } from '../../presentation/middlewares/ensure-authenticated'
 import FavoritesController from '../../presentation/controllers/favorite-controller'
 
 const favoritesController = new FavoritesController()

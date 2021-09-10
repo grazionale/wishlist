@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import AppError from '../errors/app-error'
+import AppError from '../../app/errors/app-error'
 import env from '../../main/config/env'
 
 export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction): void => {

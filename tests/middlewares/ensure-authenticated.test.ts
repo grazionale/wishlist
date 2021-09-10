@@ -1,6 +1,6 @@
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
-import { ensureAuthenticated } from '../../src/app/middlewares'
+import { ensureAuthenticated } from '../../src/presentation/middlewares/ensure-authenticated'
 import app from '../../src/main/config/app'
 
 const mockRoute = (): void => {
