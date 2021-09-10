@@ -1,5 +1,5 @@
 import FakeClientRepository from '../mocks/repositories/fake-client-repository'
-import AppError from '../../src/app/errors/app-error'
+import AppError from '../../src/presentation/errors/app-error'
 import { Client } from '../../src/domain/entities/client'
 import ClientService from '../../src/data/services/client-service'
 

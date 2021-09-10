@@ -1,6 +1,6 @@
 import { IProductService } from '../../domain/services/product-service'
 import { IProductRepository } from '../../infra/repositories/product-repository'
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 
 class ProductService implements IProductService {
   private readonly productRepository: IProductRepository

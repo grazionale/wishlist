@@ -1,4 +1,4 @@
-import AppError from '../../src/app/errors/app-error'
+import AppError from '../../src/presentation/errors/app-error'
 import AuthService from '../../src/data/services/auth-service'
 import UserService from '../../src/data/services/user-service'
 import FakeUserRepository from '../mocks/repositories/fake-user-repository'

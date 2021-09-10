@@ -1,5 +1,5 @@
 import { hash } from 'bcryptjs'
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 import { IUserService } from '../../domain/services/user-service'
 import { IUserRepository } from '../../infra/repositories/user-repository'
 

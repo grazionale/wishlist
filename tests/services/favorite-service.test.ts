@@ -1,5 +1,5 @@
 import FakeFavoriteRepository from '../mocks/repositories/fake-favorite-repository'
-import AppError from '../../src/app/errors/app-error'
+import AppError from '../../src/presentation/errors/app-error'
 import FakeClientRepository from '../mocks/repositories/fake-client-repository'
 import FakeProductRepository from '../mocks/repositories/fake-product-repository'
 import { Client } from '../../src/domain/entities/client'

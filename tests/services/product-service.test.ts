@@ -1,4 +1,4 @@
-import AppError from '../../src/app/errors/app-error'
+import AppError from '../../src/presentation/errors/app-error'
 import ProductService from '../../src/data/services/product-service'
 import { IProductService } from '../../src/domain/services/product-service'
 import FakeProductRepository from '../mocks/repositories/fake-product-repository'

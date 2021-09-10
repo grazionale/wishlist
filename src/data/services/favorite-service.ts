@@ -3,7 +3,7 @@ import { IClientRepository } from '../../infra/repositories/client-repository'
 import MagaluProductService from '../../data/services/magalu-product-service'
 import { IFavoriteRepository } from '../../infra/repositories/favorite-repository'
 import { IFavoriteService } from '../../domain/services/favorite-service'
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 
 class FavoriteService implements IFavoriteService {
   private readonly favoriteRepository: IFavoriteRepository

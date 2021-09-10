@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 import { makeFavoriteService } from '../../main/factories/services/favorite-service-factory'
 
 export default class FavoriteController {

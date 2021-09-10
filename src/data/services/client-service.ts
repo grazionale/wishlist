@@ -1,4 +1,4 @@
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 import { IClientRepository } from '../../infra/repositories/client-repository'
 import { IClientService } from '../../domain/services/client-service'
 

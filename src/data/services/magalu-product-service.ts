@@ -1,4 +1,4 @@
-import AppError from '../../app/errors/app-error'
+import AppError from '../../presentation/errors/app-error'
 import { IMagaluProductService } from '../../domain/services/magalu-product-service'
 import apiMagalu from '../../main/config/setup-api-magalu'
 
