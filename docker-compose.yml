@@ -9,8 +9,8 @@ services:
       - "15672:15672"
       - "5672:5672"
     volumes:
-      - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
-      - ./rabbitmq_config/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - "./conf/.rabbitmq_data:/var/lib/rabbitmq/mnesia"
+      - ./conf/rabbitmq_config/definitions.json:/etc/rabbitmq/definitions.json:ro
 
   wishlist-database:
     image: postgres:13
@@ -23,7 +23,7 @@ services:
       - POSTGRES_HOST=wishlist-database
     volumes:
       - postgresql_data:/var/lib/postgresql/data
-      - ./db_config/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./conf/db_config/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
     container_name: wishlist-api

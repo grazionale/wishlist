@@ -1,5 +1,5 @@
 const rootPath = process.env.NODE_ENV === 'dev' ? 'src' : 'dist'
-
+console.log(rootPath)
 module.exports = {
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
@@ -15,17 +15,17 @@ module.exports = {
   synchronize: false,
   logging: false,
   entities: [
-    `${rootPath}/app/entities/**/*{.ts,.js}`
+    `${rootPath}/domain/entities/**/*{.ts,.js}`
   ],
   migrations: [
-    `${rootPath}/database/migrations/**/*{.ts,.js}`
+    `${rootPath}/infra/database/migrations/**/*{.ts,.js}`
   ],
   subscribers: [
     `${rootPath}/subscriber/**/*{.ts,.js}`
   ],
   cli: {
-    entitiesDir: 'src/app/entities',
-    migrationsDir: 'src/database/migrations',
+    entitiesDir: 'src/domain/entities',
+    migrationsDir: 'src/infra/database/migrations',
     subscribersDir: 'src/subscriber'
   }
 }
