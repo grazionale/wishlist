@@ -1,9 +1,9 @@
-import IUserCreateRequestDTO from '../../src/app/dtos/repositories/user/user-repository-create-request-dto'
 import AppError from '../../src/app/errors/app-error'
 import UserService from '../../src/app/services/user-service'
+import { IUserRepository } from '../../src/infra/repositories/user-repository'
 import FakeUserRepository from '../mocks/repositories/fake-user-repository'
 
-const makeUserCreateRequest = (username?: string, password?: string): IUserCreateRequestDTO => {
+const makeUserCreateRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {
     username: username || 'magalu',
     password: password || '123456'

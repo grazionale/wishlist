@@ -1,5 +1,5 @@
 import AuthService from '../../../data/services/auth-service'
-import UserRepository from '../../../infra/repositories/user-repository'
+import UserRepository from '../../../infra/typeorm/user-repository'
 
 export const makeAuthService = (): AuthService => {
   const userRepository = new UserRepository()

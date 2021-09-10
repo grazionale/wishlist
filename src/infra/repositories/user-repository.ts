@@ -1,28 +1,22 @@
-import { getRepository, Repository } from 'typeorm'
-import IUserCreateRequestDTO from '../../app/dtos/repositories/user/user-repository-create-request-dto'
-import IUserCreateResponseDTO from '../../app/dtos/repositories/user/user-repository-create-response-dto'
-import IUserFindByUsernameResponseDTO from '../../app/dtos/repositories/user/user-repository-find-by-username-response-dto'
-import { User } from '../../domain/entities/user'
-import { IUserRepository } from '../../app/interfaces/repositories/user/user-repository'
-
-class UserRepository implements IUserRepository {
-  private readonly ormRepository: Repository<User>
-
-  constructor () {
-    this.ormRepository = getRepository(User)
-  }
-
-  public async findByUsername (username: string): Promise<IUserFindByUsernameResponseDTO | undefined> {
-    const user = await this.ormRepository.findOne({ username: username })
-
-    return user
-  }
-
-  public async create (user: IUserCreateRequestDTO): Promise<IUserCreateResponseDTO> {
-    const userSaved = await this.ormRepository.save(user)
-
-    return userSaved
-  }
+export interface IUserRepository {
+  findByUsername: (username: string) => Promise<IUserRepository.FindByUsernameResult | undefined>
+  create: (user: IUserRepository.CreateParams) => Promise<IUserRepository.CreateResult>
 }
 
-export default UserRepository
+export namespace IUserRepository {
+  export type FindByUsernameResult = {
+    id: number
+    username: string
+    password: string
+  }
+
+  export type CreateParams = {
+    username: string
+    password: string
+  }
+
+  export type CreateResult = {
+    id: number
+    username: string
+  }
+}

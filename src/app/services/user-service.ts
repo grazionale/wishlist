@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs'
 import AppError from '../errors/app-error'
 import IUserCreateResponseDTO from '../dtos/services/user/user-service-create-response-dto'
-import { IUserRepository } from '../interfaces/repositories/user/user-repository'
+import { IUserRepository } from '../../infra/repositories/user-repository'
 import IUserCreateRequestDTO from '../dtos/services/user/user-service-create-request-dto'
 
 class UserService {

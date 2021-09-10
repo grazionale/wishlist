@@ -1,5 +1,5 @@
 import UserService from '../../services/user-service'
-import UserRepository from '../../../infra/repositories/user-repository'
+import UserRepository from '../../../infra/typeorm/user-repository'
 
 export const makeUserService = (): UserService => {
   const userRepository = new UserRepository()

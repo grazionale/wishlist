@@ -2,7 +2,7 @@ import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import env from '../../main/config/env'
 import AppError from '../../app/errors/app-error'
-import { IUserRepository } from '../../app/interfaces/repositories/user/user-repository'
+import { IUserRepository } from '../../infra/repositories/user-repository'
 import { IAuthService } from '../../domain/services/auth-service'
 
 class AuthService implements IAuthService {

@@ -1,11 +1,11 @@
 import request from 'supertest'
 import { getConnection } from 'typeorm'
-import IUserCreateRequestDTO from '../../src/app/dtos/repositories/user/user-repository-create-request-dto'
+import { IUserRepository } from '../../src/infra/repositories/user-repository'
 import app from '../../src/main/config/app'
 import SetupDatabase from '../../src/main/config/setup-database'
 import config from '../mocks/database/mock-databaseconfig'
 
-const makePostRequest = (username?: string, password?: string): IUserCreateRequestDTO => {
+const makePostRequest = (username?: string, password?: string): IUserRepository.CreateParams => {
   return {
     username: username || 'magalu',
     password: password || '123456'
