@@ -11,3 +11,4 @@ tmp/
 temp/
 coverage
 .rabbitmq_data
+info.log
